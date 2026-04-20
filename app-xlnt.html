@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ứng dụng tính toán Hệ thống xử lý nước thải - NC Environment</title>
+<style>
+  :root{
+    --primary:#0b6e4f; --primary-dark:#074d37; --accent:#f0a500;
+    --bg:#f4f7f6; --card:#ffffff; --text:#1f2d2a; --muted:#6b7a77;
+    --border:#d8e3df; --ok:#2e7d32; --warn:#c62828;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px 30px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  header h1{margin:0 0 4px;font-size:22px}
+  header p{margin:0;opacity:.85;font-size:13px}
+  .container{max-width:1280px;margin:0 auto;padding:20px}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;border-bottom:2px solid var(--border)}
+  .tab{padding:10px 16px;background:#e7efec;border:none;cursor:pointer;font-weight:600;color:var(--muted);border-radius:8px 8px 0 0;font-size:13px}
+  .tab.active{background:var(--primary);color:#fff}
+  .tab:hover:not(.active){background:#d2e0db;color:var(--text)}
+  .panel{display:none;background:var(--card);border-radius:0 12px 12px 12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  .panel.active{display:block}
+  h2{color:var(--primary-dark);margin:0 0 8px;font-size:20px}
+  h3{color:var(--primary);margin:18px 0 8px;font-size:15px;border-left:4px solid var(--accent);padding-left:10px}
+  .desc{color:var(--muted);font-size:13px;margin-bottom:16px;font-style:italic}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .field{display:flex;flex-direction:column}
+  .field label{font-size:12px;color:var(--muted);margin-bottom:4px;font-weight:600}
+  .field input, .field select{padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px;background:#fff}
+  .field input:focus, .field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,110,79,.15)}
+  .field small{color:var(--muted);font-size:11px;margin-top:2px}
+  .results{margin-top:20px;background:#f0f7f4;border:1px solid #c7e0d6;border-radius:10px;padding:16px}
+  .results h4{margin:0 0 10px;color:var(--primary-dark);font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px}
+  table th,table td{padding:8px 10px;border-bottom:1px solid #d8e8e1;text-align:left}
+  table th{background:#e1efea;font-weight:700;color:var(--primary-dark);font-size:12px;text-transform:uppercase}
+  table td.num{text-align:right;font-family:"SF Mono",Monaco,Consolas,monospace;font-weight:600;color:var(--primary-dark)}
+  .note{background:#fff8e6;border-left:4px solid var(--accent);padding:10px 14px;font-size:12px;margin:14px 0;border-radius:0 8px 8px 0;color:#5c4a00}
+  .guide{background:#eaf4fc;border-left:4px solid #2b7bbd;padding:14px 18px;font-size:13px;margin:14px 0 0;border-radius:0 8px 8px 0;color:#0d3b66;line-height:1.7}
+  .guide h4{margin:0 0 8px;color:#0d3b66;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+  .guide b{color:#074d37}
+  .guide ol{margin:6px 0 6px 18px;padding:0}
+  .guide li{margin-bottom:4px}
+  .warn{background:#fee;border-left:4px solid var(--warn);color:#8a1f1f}
+  footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+  .input-summary{background:#eef5f2;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:12px;color:var(--muted)}
+  .input-summary b{color:var(--primary-dark)}
+  @media(max-width:720px){.tab{font-size:11px;padding:8px 10px}.container{padding:10px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Ứng dụng tính toán Hệ thống xử lý nước thải</h1>
+  <p>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC — Dựa theo TCVN 7957:2008 và các giáo trình: Trịnh Xuân Lai, Lâm Minh Triết, Trần Hiếu Nhuệ, Lê Anh Tuấn</p>
+</header>
+
+<div class="container">
+
+  <!-- ====== THÔNG SỐ ĐẦU VÀO CHUNG ====== -->
+  <div class="panel active" style="border-radius:12px;margin-bottom:20px">
+    <h2>1. Thông số đầu vào chung của nước thải</h2>
+    <p class="desc">Nhập các thông số bên dưới — tất cả các bể sẽ tự động cập nhật kết quả tính toán.</p>
+    <div class="grid">
+      <div class="field"><label>Lưu lượng trung bình Q (m³/ngày.đêm)</label>
+        <input type="number" id="Q" value="1000" step="10" oninput="calcAll()">
+        <small>Lưu lượng thiết kế của trạm</small></div>
+      <div class="field"><label>Hệ số không điều hòa K<sub>ch</sub></label>
+        <input type="number" id="Kch" value="1.5" step="0.1" oninput="calcAll()">
+        <small>Giờ max / giờ trung bình (1.3–2.5)</small></div>
+      <div class="field"><label>BOD₅ đầu vào (mg/L)</label>
+        <input type="number" id="BOD" value="300" step="10" oninput="calcAll()"></div>
+      <div class="field"><label>COD đầu vào (mg/L)</label>
+        <input type="number" id="COD" value="550" step="10" oninput="calcAll()"></div>
+      <div class="field"><label>SS / TSS đầu vào (mg/L)</label>
+        <input type="number" id="SS" value="250" step="10" oninput="calcAll()"></div>
+      <div class="field"><label>Tổng N (mg/L)</label>
+        <input type="number" id="TN" value="50" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Tổng P (mg/L)</label>
+        <input type="number" id="TP" value="8" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Nhiệt độ T (°C)</label>
+        <input type="number" id="T" value="25" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>BOD₅ đầu ra yêu cầu (mg/L)</label>
+        <input type="number" id="BODout" value="30" step="1" oninput="calcAll()">
+        <small>QCVN 14 cột A=30, cột B=50</small></div>
+      <div class="field"><label>SS đầu ra yêu cầu (mg/L)</label>
+        <input type="number" id="SSout" value="50" step="1" oninput="calcAll()"></div>
+    </div>
+    <div class="note">
+      <b>Gợi ý:</b> Thay đổi bất kỳ ô nào ở trên, toàn bộ các tab bên dưới (song chắn rác → khử trùng → hoá lý) sẽ tự tính lại. Mỗi tab đều hiển thị công thức để anh kiểm tra chéo với bản tay.
+    </div>
+  </div>
+
+  <div class="input-summary" id="summary"></div>
+
+  <!-- ====== TABS ====== -->
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="t1">1. Song chắn rác</button>
+    <button class="tab" data-tab="t2">2. Bể lắng cát</button>
+    <button class="tab" data-tab="t3">3. Bể điều hoà</button>
+    <button class="tab" data-tab="t4">4. Bể lắng 1</button>
+    <button class="tab" data-tab="t5">5. Bể Aerotank</button>
+    <button class="tab" data-tab="t6">6. Bể lắng 2</button>
+    <button class="tab" data-tab="t7">7. Khử trùng</button>
+    <button class="tab" data-tab="t8">8. Bể nén bùn</button>
+    <button class="tab" data-tab="t9">9. UASB (kỵ khí)</button>
+    <button class="tab" data-tab="t10">10. MBBR</button>
+    <button class="tab" data-tab="t11">11. SBR</button>
+    <button class="tab" data-tab="t12">12. Hoá lý (keo tụ)</button>
+    <button class="tab" data-tab="t13">13. DAF (tuyển nổi)</button>
+    <button class="tab" data-tab="t15">14. Khử Nitơ (A/O - A²/O)</button>
+    <button class="tab" data-tab="t16">15. Bơm - Máy thổi khí</button>
+    <button class="tab" data-tab="t14">Tổng hợp</button>
+  </div>
+
+  <!-- ====== T1. SONG CHẮN RÁC ====== -->
+  <div class="panel" id="t1">
+    <h2>1. Song chắn rác (Bar screen)</h2>
+    <p class="desc">Loại bỏ rác thô trước khi vào hệ thống. Dựa theo TCVN 7957:2008 và GT Trần Hiếu Nhuệ.</p>
+    <div class="grid">
+      <div class="field"><label>Khe hở giữa các thanh b (mm)</label>
+        <input type="number" id="sc_b" value="16" step="1" oninput="calcAll()">
+        <small>10–25 mm (song thô); 3–10 mm (song tinh)</small></div>
+      <div class="field"><label>Bề dày thanh chắn s (mm)</label>
+        <input type="number" id="sc_s" value="8" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Vận tốc qua song v (m/s)</label>
+        <input type="number" id="sc_v" value="0.9" step="0.05" oninput="calcAll()">
+        <small>0.8–1.0 m/s khi Q max</small></div>
+      <div class="field"><label>Độ sâu lớp nước h₁ (m)</label>
+        <input type="number" id="sc_h" value="0.5" step="0.05" oninput="calcAll()"></div>
+      <div class="field"><label>Góc nghiêng α (độ)</label>
+        <input type="number" id="sc_a" value="60" step="5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="sc_out"></table></div>
+    <div class="note"><b>Công thức:</b> Q<sub>s</sub>=Q·K<sub>ch</sub>/86400; Tổng khe hở n=Q<sub>s</sub>/(b·h₁·v); Bề rộng song B=s(n−1)+b·n; Tổn thất áp lực h<sub>s</sub>=ξ·v²/(2g)·k (k=3 hệ số tắc nghẽn; ξ=β(s/b)^(4/3)·sinα, β=2.42 với thanh chữ nhật).</div>
+  </div>
+
+  <!-- ====== T2. BỂ LẮNG CÁT ====== -->
+  <div class="panel" id="t2">
+    <h2>2. Bể lắng cát ngang (Grit chamber)</h2>
+    <p class="desc">Loại bỏ các hạt cát vô cơ d ≥ 0.2 mm để bảo vệ bơm và đường ống.</p>
+    <div class="grid">
+      <div class="field"><label>Vận tốc dòng v (m/s)</label>
+        <input type="number" id="lc_v" value="0.3" step="0.05" oninput="calcAll()">
+        <small>0.15–0.3 m/s</small></div>
+      <div class="field"><label>Thời gian lưu t (giây)</label>
+        <input type="number" id="lc_t" value="45" step="5" oninput="calcAll()">
+        <small>30–60 s</small></div>
+      <div class="field"><label>Độ sâu hữu ích H (m)</label>
+        <input type="number" id="lc_H" value="0.6" step="0.1" oninput="calcAll()"></div>
+      <div class="field"><label>Số đơn nguyên n</label>
+        <input type="number" id="lc_n" value="2" step="1" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="lc_out"></table></div>
+    <div class="note"><b>Công thức:</b> Q<sub>s</sub>=Q·K<sub>ch</sub>/86400; Chiều dài L=v·t; Diện tích mặt cắt ướt F=Q<sub>s</sub>/(n·v); Bề rộng B=F/H; Thể tích V=n·L·B·H.</div>
+  </div>
+
+  <!-- ====== T3. BỂ ĐIỀU HOÀ ====== -->
+  <div class="panel" id="t3">
+    <h2>3. Bể điều hoà (Equalization tank)</h2>
+    <p class="desc">Ổn định lưu lượng và nồng độ trước khi vào xử lý sinh học.</p>
+    <div class="grid">
+      <div class="field"><label>Thời gian lưu t (giờ)</label>
+        <input type="number" id="dh_t" value="6" step="0.5" oninput="calcAll()">
+        <small>4–8 h (sinh hoạt); 8–12 h (CN)</small></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="dh_H" value="4" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Lượng khí cấp q<sub>kk</sub> (m³ khí/m³ bể.h)</label>
+        <input type="number" id="dh_qk" value="4" step="0.5" oninput="calcAll()">
+        <small>3.74–4 m³/m³.h (khuấy khí)</small></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="dh_out"></table></div>
+    <div class="note"><b>Công thức:</b> V=Q·t/24; F=V/H; Q<sub>khí</sub>=q<sub>kk</sub>·V (m³/h); chọn 2 bơm 1 công tác 1 dự phòng với Q<sub>bơm</sub>=Q·K<sub>ch</sub>/24.</div>
+  </div>
+
+  <!-- ====== T4. BỂ LẮNG 1 ====== -->
+  <div class="panel" id="t4">
+    <h2>4. Bể lắng đợt 1 (Primary clarifier)</h2>
+    <p class="desc">Loại bỏ 50–70% SS và 25–40% BOD trước xử lý sinh học.</p>
+    <div class="grid">
+      <div class="field"><label>Tải trọng bề mặt U₀ (m³/m².h)</label>
+        <input type="number" id="l1_U" value="2" step="0.1" oninput="calcAll()">
+        <small>1.5–2.5 m³/m².h</small></div>
+      <div class="field"><label>Thời gian lưu t (h)</label>
+        <input type="number" id="l1_t" value="1.5" step="0.1" oninput="calcAll()">
+        <small>1.5–2.5 h</small></div>
+      <div class="field"><label>Chiều sâu vùng lắng H (m)</label>
+        <input type="number" id="l1_H" value="3" step="0.2" oninput="calcAll()"></div>
+      <div class="field"><label>Hiệu suất khử SS (%)</label>
+        <input type="number" id="l1_eSS" value="60" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Hiệu suất khử BOD (%)</label>
+        <input type="number" id="l1_eBOD" value="30" step="5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="l1_out"></table></div>
+    <div class="note"><b>Công thức:</b> Q<sub>h</sub>=Q/24; F=Q<sub>h</sub>/U₀; D=√(4F/π) (bể tròn); V=Q<sub>h</sub>·t; SS ra = SS·(1−η<sub>SS</sub>); BOD ra = BOD·(1−η<sub>BOD</sub>).</div>
+  </div>
+
+  <!-- ====== T5. AEROTANK ====== -->
+  <div class="panel" id="t5">
+    <h2>5. Bể Aerotank (Bùn hoạt tính truyền thống)</h2>
+    <p class="desc">Xử lý BOD hoà tan bằng vi sinh hiếu khí. Công thức theo Metcalf &amp; Eddy / Trịnh Xuân Lai.</p>
+    <div class="grid">
+      <div class="field"><label>BOD vào aerotank S₀ (mg/L)</label>
+        <input type="number" id="ae_S0" value="210" step="5" oninput="calcAll()">
+        <small>= BOD sau lắng 1</small></div>
+      <div class="field"><label>BOD ra S (mg/L)</label>
+        <input type="number" id="ae_S" value="20" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>MLVSS X (mg/L)</label>
+        <input type="number" id="ae_X" value="3000" step="100" oninput="calcAll()">
+        <small>2500–4000 mg/L</small></div>
+      <div class="field"><label>Tuổi bùn θ<sub>c</sub> (ngày)</label>
+        <input type="number" id="ae_tc" value="10" step="1" oninput="calcAll()">
+        <small>5–15 ngày</small></div>
+      <div class="field"><label>Hệ số Y (kgVSS/kgBOD)</label>
+        <input type="number" id="ae_Y" value="0.6" step="0.05" oninput="calcAll()"></div>
+      <div class="field"><label>Hệ số k<sub>d</sub> (1/ngày)</label>
+        <input type="number" id="ae_kd" value="0.06" step="0.01" oninput="calcAll()"></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="ae_H" value="4.5" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Hệ số chuyển O₂ α</label>
+        <input type="number" id="ae_alpha" value="0.7" step="0.05" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="ae_out"></table></div>
+    <div class="note"><b>Công thức:</b> V = Q·Y·(S₀−S)·θ<sub>c</sub> / [X·(1+k<sub>d</sub>·θ<sub>c</sub>)]; HRT = V/Q; F/M = Q·S₀/(V·X); P<sub>x</sub>=Y·Q·(S₀−S)·10⁻³/(1+k<sub>d</sub>·θ<sub>c</sub>) (kg/ngày); OC<sub>0</sub>=Q(S₀−S)·10⁻³/f − 1.42·P<sub>x</sub> với f=0.68; OC<sub>thực</sub>=OC<sub>0</sub>/(α·β·(C<sub>s</sub>−C<sub>L</sub>)/C<sub>s20</sub>·1.024^(T−20)).</div>
+  </div>
+
+  <!-- ====== T6. BỂ LẮNG 2 ====== -->
+  <div class="panel" id="t6">
+    <h2>6. Bể lắng đợt 2 (Secondary clarifier)</h2>
+    <p class="desc">Tách bùn hoạt tính khỏi nước sau Aerotank.</p>
+    <div class="grid">
+      <div class="field"><label>Tải trọng bề mặt U₀ (m³/m².h)</label>
+        <input type="number" id="l2_U" value="1" step="0.1" oninput="calcAll()">
+        <small>0.8–1.2 m³/m².h</small></div>
+      <div class="field"><label>Tải trọng bùn (kg/m².h)</label>
+        <input type="number" id="l2_Lb" value="4" step="0.5" oninput="calcAll()">
+        <small>3.6–6 kg/m².h</small></div>
+      <div class="field"><label>Thời gian lưu t (h)</label>
+        <input type="number" id="l2_t" value="2" step="0.25" oninput="calcAll()"></div>
+      <div class="field"><label>Tỷ lệ tuần hoàn α</label>
+        <input type="number" id="l2_a" value="0.75" step="0.05" oninput="calcAll()">
+        <small>0.5–1.0</small></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="l2_H" value="3.5" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="l2_out"></table></div>
+    <div class="note"><b>Công thức:</b> Q<sub>tt</sub>=Q(1+α); F=Q<sub>tt</sub>/(24·U₀); kiểm tra theo tải trọng bùn: F<sub>b</sub>=(Q<sub>tt</sub>·X)/L<sub>b</sub>·10⁻³; chọn F lớn hơn.</div>
+  </div>
+
+  <!-- ====== T7. KHỬ TRÙNG ====== -->
+  <div class="panel" id="t7">
+    <h2>7. Bể khử trùng bằng Clo</h2>
+    <p class="desc">Tiêu diệt vi sinh gây bệnh bằng dung dịch Chlorine.</p>
+    <div class="grid">
+      <div class="field"><label>Liều Clo hoạt tính a (mg/L)</label>
+        <input type="number" id="kt_a" value="5" step="0.5" oninput="calcAll()">
+        <small>3 (sau sinh học); 10 (nước thô)</small></div>
+      <div class="field"><label>Thời gian tiếp xúc t (phút)</label>
+        <input type="number" id="kt_t" value="30" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Nồng độ dung dịch Clo (%)</label>
+        <input type="number" id="kt_c" value="10" step="1" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="kt_out"></table></div>
+    <div class="note"><b>Công thức:</b> Lượng Clo=Q·a·10⁻³ (kg/ngày); V bể tiếp xúc=Q<sub>h</sub>·t/60; V dung dịch Clo=M<sub>Cl</sub>/(c·10) (L/ngày).</div>
+  </div>
+
+  <!-- ====== T8. BỂ NÉN BÙN ====== -->
+  <div class="panel" id="t8">
+    <h2>8. Bể nén bùn trọng lực</h2>
+    <p class="desc">Giảm thể tích bùn dư trước khi ép/phơi.</p>
+    <div class="grid">
+      <div class="field"><label>Nồng độ bùn vào C₀ (kg/m³)</label>
+        <input type="number" id="nb_c0" value="8" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Nồng độ bùn sau nén C₁ (kg/m³)</label>
+        <input type="number" id="nb_c1" value="25" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Tải trọng bề mặt (kg/m².ngày)</label>
+        <input type="number" id="nb_L" value="30" step="5" oninput="calcAll()">
+        <small>24–30 kg/m².ngày</small></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="nb_H" value="3" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="nb_out"></table></div>
+    <div class="note"><b>Công thức:</b> Lượng bùn dư P<sub>x</sub> (lấy từ tab Aerotank); Q<sub>bùn vào</sub>=P<sub>x</sub>/C₀; Q<sub>bùn sau</sub>=P<sub>x</sub>/C₁; F=P<sub>x</sub>/L; V=F·H.</div>
+  </div>
+
+  <!-- ====== T9. UASB ====== -->
+  <div class="panel" id="t9">
+    <h2>9. Bể UASB (Upflow Anaerobic Sludge Blanket)</h2>
+    <p class="desc">Xử lý kỵ khí cho nước thải COD cao ( &gt; 1500 mg/L) như thực phẩm, bia, chăn nuôi.</p>
+    <div class="grid">
+      <div class="field"><label>Tải trọng hữu cơ OLR (kgCOD/m³.ngày)</label>
+        <input type="number" id="u_OLR" value="10" step="1" oninput="calcAll()">
+        <small>8–15 kgCOD/m³.ngày</small></div>
+      <div class="field"><label>Vận tốc nước đi lên v (m/h)</label>
+        <input type="number" id="u_v" value="0.8" step="0.1" oninput="calcAll()">
+        <small>≤ 1 m/h</small></div>
+      <div class="field"><label>Hiệu suất khử COD (%)</label>
+        <input type="number" id="u_e" value="75" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Chiều cao H (m)</label>
+        <input type="number" id="u_H" value="5" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="u_out"></table></div>
+    <div class="note"><b>Công thức:</b> Tải lượng L=Q·COD·10⁻³ (kg/ngày); V=L/OLR; F=Q/(24·v); H<sub>kiểm tra</sub>=V/F; Sinh khí CH₄ ≈ 0.35·L·η (m³/ngày, ở 0°C).</div>
+  </div>
+
+  <!-- ====== T10. MBBR ====== -->
+  <div class="panel" id="t10">
+    <h2>10. Bể MBBR (Moving Bed Biofilm Reactor)</h2>
+    <p class="desc">Sinh học giá thể di động, hiệu suất cao, diện tích nhỏ.</p>
+    <div class="grid">
+      <div class="field"><label>Tải trọng bề mặt SALR (gBOD/m².ngày)</label>
+        <input type="number" id="m_SALR" value="7.5" step="0.5" oninput="calcAll()">
+        <small>5–15 gBOD/m².ngày</small></div>
+      <div class="field"><label>Diện tích giá thể riêng (m²/m³)</label>
+        <input type="number" id="m_SSA" value="500" step="50" oninput="calcAll()">
+        <small>K1=500, K3=500, MB3=640</small></div>
+      <div class="field"><label>Tỷ lệ lấp đầy f (%)</label>
+        <input type="number" id="m_fill" value="50" step="5" oninput="calcAll()">
+        <small>Không quá 67%</small></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="m_H" value="4" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>BOD vào (mg/L)</label>
+        <input type="number" id="m_Sin" value="210" step="10" oninput="calcAll()"></div>
+      <div class="field"><label>BOD ra (mg/L)</label>
+        <input type="number" id="m_Sout" value="20" step="1" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="m_out"></table></div>
+    <div class="note"><b>Công thức:</b> Tải BOD L=Q·(S<sub>in</sub>−S<sub>out</sub>)·10⁻³ (kg/ngày); Diện tích giá thể cần A=L·1000/SALR (m²); Thể tích giá thể V<sub>g</sub>=A/SSA; V<sub>bể</sub>=V<sub>g</sub>/(f/100).</div>
+  </div>
+
+  <!-- ====== T11. SBR ====== -->
+  <div class="panel" id="t11">
+    <h2>11. Bể SBR (Sequencing Batch Reactor)</h2>
+    <p class="desc">Mẻ luân phiên: Làm đầy → Phản ứng → Lắng → Rút nước → Nghỉ.</p>
+    <div class="grid">
+      <div class="field"><label>Số bể N</label>
+        <input type="number" id="sbr_N" value="2" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Thời gian 1 chu kỳ T<sub>c</sub> (h)</label>
+        <input type="number" id="sbr_Tc" value="6" step="0.5" oninput="calcAll()">
+        <small>4–8 h</small></div>
+      <div class="field"><label>Số chu kỳ/ngày n</label>
+        <input type="number" id="sbr_n" value="4" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Tỷ lệ nước rút (Vol exchange) %</label>
+        <input type="number" id="sbr_f" value="30" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="sbr_H" value="5" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="sbr_out"></table></div>
+    <div class="note"><b>Công thức:</b> V<sub>1 mẻ</sub>=Q/(N·n); V<sub>bể</sub>=V<sub>1 mẻ</sub>/(f/100); F=V/H.</div>
+  </div>
+
+  <!-- ====== T12. HOÁ LÝ KEO TỤ ====== -->
+  <div class="panel" id="t12">
+    <h2>12. Hoá lý — Keo tụ / Tạo bông</h2>
+    <p class="desc">Tách hạt keo, kim loại nặng và độ màu bằng PAC / phèn nhôm.</p>
+    <div class="grid">
+      <div class="field"><label>Liều PAC (mg/L)</label>
+        <input type="number" id="hl_dose" value="60" step="5" oninput="calcAll()">
+        <small>30–100 mg/L tuỳ nước thải</small></div>
+      <div class="field"><label>Thời gian trộn nhanh t₁ (s)</label>
+        <input type="number" id="hl_t1" value="60" step="10" oninput="calcAll()"></div>
+      <div class="field"><label>Thời gian tạo bông t₂ (phút)</label>
+        <input type="number" id="hl_t2" value="25" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Gradient G trộn nhanh (s⁻¹)</label>
+        <input type="number" id="hl_G1" value="800" step="50" oninput="calcAll()">
+        <small>700–1000</small></div>
+      <div class="field"><label>Gradient G tạo bông (s⁻¹)</label>
+        <input type="number" id="hl_G2" value="50" step="5" oninput="calcAll()">
+        <small>20–70</small></div>
+      <div class="field"><label>Nồng độ dung dịch PAC pha (%)</label>
+        <input type="number" id="hl_c" value="10" step="1" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="hl_out"></table></div>
+    <div class="note"><b>Công thức:</b> Lượng PAC=Q·D·10⁻³ (kg/ngày); V trộn nhanh=Q<sub>s</sub>·t₁; V tạo bông=Q<sub>s</sub>·t₂·60; Công suất khuấy P=μ·V·G² (W), lấy μ=10⁻³ Pa·s.</div>
+  </div>
+
+  <!-- ====== T13. DAF ====== -->
+  <div class="panel" id="t13">
+    <h2>13. Bể tuyển nổi DAF (Dissolved Air Flotation)</h2>
+    <p class="desc">Tách dầu mỡ, SS nhẹ, bùn hóa lý bằng bọt khí hoà tan.</p>
+    <div class="grid">
+      <div class="field"><label>Tải trọng bề mặt U₀ (m³/m².h)</label>
+        <input type="number" id="daf_U" value="6" step="0.5" oninput="calcAll()">
+        <small>5–10 m³/m².h</small></div>
+      <div class="field"><label>Thời gian lưu t (phút)</label>
+        <input type="number" id="daf_t" value="30" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Tỷ lệ khí/rắn A/S</label>
+        <input type="number" id="daf_AS" value="0.03" step="0.005" oninput="calcAll()">
+        <small>0.02–0.06</small></div>
+      <div class="field"><label>Tỷ lệ tuần hoàn R (%)</label>
+        <input type="number" id="daf_R" value="30" step="5" oninput="calcAll()"></div>
+      <div class="field"><label>Áp suất bình bão hoà P (bar)</label>
+        <input type="number" id="daf_P" value="5" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả</h4><table id="daf_out"></table></div>
+    <div class="note"><b>Công thức:</b> Q<sub>h</sub>=Q/24; F=Q<sub>h</sub>·(1+R)/U₀; V=Q<sub>h</sub>·(1+R)·t/60; Q<sub>tuần hoàn</sub>=Q<sub>h</sub>·R; Lượng khí bão hoà Q<sub>kk</sub>≈A/S·SS·Q.</div>
+  </div>
+
+  <!-- ====== T15. KHỬ NITƠ ====== -->
+  <div class="panel" id="t15">
+    <h2>14. Khử Nitơ — Nitrat hoá & Khử nitrat (A/O, A²/O)</h2>
+    <p class="desc">Tính bể Anoxic (thiếu khí) + điều kiện nitrat hoá trong bể Aerotank. Theo Metcalf &amp; Eddy / Trịnh Xuân Lai.</p>
+    <h3>Thông số đầu vào N</h3>
+    <div class="grid">
+      <div class="field"><label>NH₄⁺-N vào bể sinh học (mg/L)</label>
+        <input type="number" id="n_NH4" value="40" step="1" oninput="calcAll()">
+        <small>≈ 0.7–0.8 × TN</small></div>
+      <div class="field"><label>NH₄⁺-N ra yêu cầu (mg/L)</label>
+        <input type="number" id="n_NH4o" value="5" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>TN ra yêu cầu (mg/L)</label>
+        <input type="number" id="n_TNo" value="15" step="1" oninput="calcAll()">
+        <small>QCVN 14 cột A=20; B=40</small></div>
+    </div>
+    <h3>Hệ số nitrat hoá (bể hiếu khí)</h3>
+    <div class="grid">
+      <div class="field"><label>μ<sub>n,max</sub> ở 20°C (1/ngày)</label>
+        <input type="number" id="n_umax" value="0.75" step="0.05" oninput="calcAll()"></div>
+      <div class="field"><label>K<sub>n</sub> (mg/L)</label>
+        <input type="number" id="n_Kn" value="0.74" step="0.1" oninput="calcAll()"></div>
+      <div class="field"><label>K<sub>O2</sub> (mg/L)</label>
+        <input type="number" id="n_KO2" value="0.5" step="0.1" oninput="calcAll()"></div>
+      <div class="field"><label>k<sub>dn</sub> (1/ngày)</label>
+        <input type="number" id="n_kdn" value="0.08" step="0.01" oninput="calcAll()"></div>
+      <div class="field"><label>DO vận hành (mg/L)</label>
+        <input type="number" id="n_DO" value="2" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Hệ số an toàn SF</label>
+        <input type="number" id="n_SF" value="2" step="0.1" oninput="calcAll()">
+        <small>1.5–2.5</small></div>
+    </div>
+    <h3>Bể Anoxic (khử nitrat)</h3>
+    <div class="grid">
+      <div class="field"><label>SDNR ở 20°C (kg NO₃-N/kg VSS.ngày)</label>
+        <input type="number" id="n_SDNR" value="0.1" step="0.01" oninput="calcAll()">
+        <small>0.05–0.15 tuỳ C/N</small></div>
+      <div class="field"><label>MLVSS X (mg/L)</label>
+        <input type="number" id="n_X" value="3000" step="100" oninput="calcAll()"></div>
+      <div class="field"><label>Tỷ lệ tuần hoàn bùn R</label>
+        <input type="number" id="n_R" value="0.75" step="0.05" oninput="calcAll()"></div>
+      <div class="field"><label>Chiều sâu H (m)</label>
+        <input type="number" id="n_H" value="4.5" step="0.5" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả nitrat hoá (điều kiện cho Aerotank)</h4><table id="n_out1"></table></div>
+    <div class="results" style="margin-top:10px"><h4>Kết quả Anoxic</h4><table id="n_out2"></table></div>
+    <div class="note"><b>Công thức chính:</b> μ<sub>n</sub>(T)=μ<sub>n,20</sub>·1.07^(T−20)·(NH₄/(K<sub>n</sub>+NH₄))·(DO/(K<sub>O2</sub>+DO))−k<sub>dn</sub>; SRT<sub>min</sub>=1/μ<sub>n</sub>; SRT<sub>tk</sub>=SF·SRT<sub>min</sub>; Tải N nitrat hoá=Q·(NH₄<sub>in</sub>−NH₄<sub>out</sub>)·10⁻³; O₂ bổ sung=4.57·Tải<sub>N</sub>; Kiềm tiêu thụ=7.14·Tải<sub>N</sub>; SDNR(T)=SDNR<sub>20</sub>·1.08^(T−20); V<sub>anoxic</sub>=Tải<sub>NO3→N2</sub>/(SDNR·X·10⁻³); Tuần hoàn nội IR=(NH₄<sub>ox</sub>/NO₃<sub>ra</sub>)−1−R; O₂ thu hồi từ khử nitrat=2.86·Tải<sub>denit</sub>.</div>
+  </div>
+
+  <!-- ====== T16. BƠM - MÁY THỔI KHÍ ====== -->
+  <div class="panel" id="t16">
+    <h2>15. Tính bơm nước thải và máy thổi khí</h2>
+    <p class="desc">Chọn công suất bơm nâng và máy thổi khí cấp O₂ cho bể hiếu khí.</p>
+    <h3>Bơm nâng nước thải</h3>
+    <div class="grid">
+      <div class="field"><label>Lưu lượng bơm Q<sub>b</sub> (m³/h)</label>
+        <input type="number" id="p_Q" value="62.5" step="1" oninput="calcAll()">
+        <small>= Q<sub>giờ max</sub> của trạm</small></div>
+      <div class="field"><label>Cột áp hình học H<sub>hh</sub> (m)</label>
+        <input type="number" id="p_Hh" value="6" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Tổn thất ma sát + cục bộ Δh (m)</label>
+        <input type="number" id="p_dh" value="2" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Hiệu suất bơm η<sub>b</sub></label>
+        <input type="number" id="p_eta" value="0.65" step="0.05" oninput="calcAll()">
+        <small>0.6–0.75</small></div>
+      <div class="field"><label>Hệ số dự trữ K<sub>b</sub></label>
+        <input type="number" id="p_Kb" value="1.15" step="0.05" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả bơm</h4><table id="p_out"></table></div>
+    <h3>Máy thổi khí (Roots / Centrifugal Blower)</h3>
+    <div class="grid">
+      <div class="field"><label>Lưu lượng khí Q<sub>kk</sub> (m³/phút)</label>
+        <input type="number" id="b_Q" value="5" step="0.5" oninput="calcAll()">
+        <small>Lấy từ tab Aerotank hoặc tự nhập</small></div>
+      <div class="field"><label>Chiều sâu ngập đĩa H<sub>đ</sub> (m)</label>
+        <input type="number" id="b_Hd" value="4" step="0.5" oninput="calcAll()"></div>
+      <div class="field"><label>Tổn thất qua đĩa + ống ΔP (kPa)</label>
+        <input type="number" id="b_dP" value="35" step="5" oninput="calcAll()">
+        <small>≈ 30–50 kPa với đĩa mịn</small></div>
+      <div class="field"><label>Nhiệt độ khí vào T₁ (°C)</label>
+        <input type="number" id="b_T" value="30" step="1" oninput="calcAll()"></div>
+      <div class="field"><label>Hiệu suất máy thổi e</label>
+        <input type="number" id="b_e" value="0.7" step="0.05" oninput="calcAll()">
+        <small>0.7–0.8</small></div>
+      <div class="field"><label>Hệ số dự trữ K<sub>mt</sub></label>
+        <input type="number" id="b_K" value="1.2" step="0.05" oninput="calcAll()"></div>
+    </div>
+    <div class="results"><h4>Kết quả máy thổi khí</h4><table id="b_out"></table></div>
+    <div class="note"><b>Công thức:</b> Bơm: N<sub>b</sub>=ρ·g·Q·H/(3600·η)/1000 = Q·H/(367·η) kW; chọn 2 bơm (1 chạy+1 dự phòng), N<sub>chọn</sub>=K<sub>b</sub>·N<sub>b</sub>. Máy thổi (nén đoạn nhiệt): P<sub>mt</sub>=(ρ·Q·C<sub>p</sub>·T₁/e)·[(P₂/P₁)^0.283−1]; với ρ=1.2 kg/m³, C<sub>p</sub>=1.005 kJ/kg·K, P₁=101.3 kPa, P₂=P₁+9.81·H<sub>đ</sub>+ΔP.</div>
+  </div>
+
+  <!-- ====== T14. TỔNG HỢP ====== -->
+  <div class="panel" id="t14">
+    <h2>14. Bảng tổng hợp công trình</h2>
+    <p class="desc">Tóm tắt kích thước, thể tích, công suất để đưa vào báo cáo nhanh.</p>
+    <div class="results"><h4>Bảng tổng hợp</h4><table id="tong_out"></table></div>
+    <div class="note"><b>Lưu ý vận dụng:</b> Ứng dụng tính theo giá trị trung bình. Khi thiết kế chi tiết cần kiểm tra lại với QCVN đầu ra, điều kiện vận hành, đặc tính nước thải riêng (có/không dầu mỡ, tỷ lệ BOD/COD, SVI, độ kiềm…) và phải có sự phê duyệt của kỹ sư có chứng chỉ hành nghề.</div>
+  </div>
+
+</div>
+
+<footer>© 2026 Công ty TNHH Tư vấn Tài nguyên và Môi trường NC — Phiên bản 1.0</footer>
+
+<script>
+// ========== TAB SWITCHING ==========
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>{if(p.id&&p.id.startsWith('t'))p.classList.remove('active');});
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ========== HELPERS ==========
+const v=id=>parseFloat(document.getElementById(id).value)||0;
+const fmt=(x,d=2)=>isFinite(x)?Number(x).toLocaleString('vi-VN',{maximumFractionDigits:d,minimumFractionDigits:d}):'—';
+const row=(label,val,unit='')=>`<tr><td>${label}</td><td class="num">${val}</td><td>${unit}</td></tr>`;
+const thead=`<thead><tr><th>Đại lượng</th><th style="text-align:right">Giá trị</th><th>Đơn vị</th></tr></thead>`;
+
+// ========== GLOBAL STATE ==========
+let G={}; // lưu kết quả dùng chung cho tab tổng hợp
+
+function calcAll(){
+  const Q=v('Q'), Kch=v('Kch'), BOD=v('BOD'), COD=v('COD'), SS=v('SS'), TN=v('TN'), TP=v('TP'), T=v('T');
+  const BODout=v('BODout'), SSout=v('SSout');
+  const Qs=Q*Kch/86400;    // m3/s (max)
+  const Qh=Q/24;            // m3/h trung bình
+  const Qh_max=Q*Kch/24;    // m3/h max
+
+  document.getElementById('summary').innerHTML=
+    `<b>Q</b> = ${fmt(Q,0)} m³/ngđ &nbsp;|&nbsp; <b>Q<sub>giờ max</sub></b> = ${fmt(Qh_max,1)} m³/h &nbsp;|&nbsp; <b>Q<sub>giây max</sub></b> = ${fmt(Qs,4)} m³/s &nbsp;|&nbsp;
+     BOD=${BOD} / COD=${COD} / SS=${SS} mg/L &nbsp;|&nbsp; T=${T}°C`;
+
+  // ---- T1 Song chắn rác ----
+  const b=v('sc_b')/1000, s=v('sc_s')/1000, vs=v('sc_v'), h1=v('sc_h'), alpha=v('sc_a');
+  const n=Math.ceil(Qs/(b*h1*vs));
+  const B=s*(n-1)+b*n;
+  const beta=2.42;
+  const xi=beta*Math.pow(s/b,4/3)*Math.sin(alpha*Math.PI/180);
+  const hs=xi*vs*vs/(2*9.81)*3;
+  document.getElementById('sc_out').innerHTML=thead+
+    row('Q<sub>giây max</sub>',fmt(Qs,4),'m³/s')+
+    row('Số khe hở cần n',n,'khe')+
+    row('Bề rộng song chắn B',fmt(B,2),'m')+
+    row('Hệ số cản ξ',fmt(xi,3),'—')+
+    row('Tổn thất áp lực h<sub>s</sub>',fmt(hs*1000,1),'mm');
+  G.sc={B,n,hs};
+
+  // ---- T2 Lắng cát ----
+  const lcv=v('lc_v'), lct=v('lc_t'), lcH=v('lc_H'), lcn=v('lc_n');
+  const L=lcv*lct;
+  const Fmc=Qs/(lcn*lcv);
+  const Bw=Fmc/lcH;
+  const Vlc=lcn*L*Bw*lcH;
+  document.getElementById('lc_out').innerHTML=thead+
+    row('Chiều dài bể L',fmt(L,2),'m')+
+    row('Diện tích mặt cắt ướt F',fmt(Fmc,3),'m²')+
+    row('Bề rộng 1 đơn nguyên B',fmt(Bw,2),'m')+
+    row('Thể tích tổng V',fmt(Vlc,2),'m³')+
+    row('Số đơn nguyên',lcn,'bể');
+  G.lc={L,Bw,Vlc};
+
+  // ---- T3 Điều hoà ----
+  const dht=v('dh_t'), dhH=v('dh_H'), dhqk=v('dh_qk');
+  const Vdh=Q*dht/24;
+  const Fdh=Vdh/dhH;
+  const Qkk=dhqk*Vdh;
+  document.getElementById('dh_out').innerHTML=thead+
+    row('Thể tích bể V',fmt(Vdh,1),'m³')+
+    row('Diện tích mặt bằng F',fmt(Fdh,1),'m²')+
+    row('Bề rộng × dài gợi ý (H/W≈0.8)',`${fmt(Math.sqrt(Fdh),1)}×${fmt(Math.sqrt(Fdh),1)}`,'m')+
+    row('Lượng khí cấp Q<sub>khí</sub>',fmt(Qkk,1),'m³/h')+
+    row('Công suất bơm nâng (Q<sub>max</sub>)',fmt(Qh_max,1),'m³/h');
+  G.dh={Vdh,Fdh,Qkk};
+
+  // ---- T4 Lắng 1 ----
+  const l1U=v('l1_U'), l1t=v('l1_t'), l1H=v('l1_H'), l1eSS=v('l1_eSS')/100, l1eBOD=v('l1_eBOD')/100;
+  const F1=Qh_max/l1U;
+  const V1=Qh_max*l1t;
+  const D1=Math.sqrt(4*F1/Math.PI);
+  const SSap1=SS*(1-l1eSS);
+  const BODap1=BOD*(1-l1eBOD);
+  document.getElementById('l1_out').innerHTML=thead+
+    row('Diện tích bề mặt F',fmt(F1,1),'m²')+
+    row('Đường kính bể (tròn) D',fmt(D1,2),'m')+
+    row('Thể tích V',fmt(V1,1),'m³')+
+    row('SS sau lắng 1',fmt(SSap1,0),'mg/L')+
+    row('BOD sau lắng 1',fmt(BODap1,0),'mg/L');
+  G.l1={F1,D1,V1,SSap1,BODap1};
+
+  // ---- T5 Aerotank ----
+  const S0=v('ae_S0'), Sout=v('ae_S'), X=v('ae_X'), tc=v('ae_tc'), Y=v('ae_Y'), kd=v('ae_kd'), aeH=v('ae_H'), alphaO=v('ae_alpha');
+  const Vae=Q*Y*(S0-Sout)*tc/(X*(1+kd*tc));
+  const HRT=Vae/Q*24;
+  const FM=Q*S0/(Vae*X);
+  const Px=Y*Q*(S0-Sout)*1e-3/(1+kd*tc);
+  const f_=0.68;
+  const OC0=Q*(S0-Sout)*1e-3/f_ - 1.42*Px;
+  // điều chỉnh theo nhiệt độ (Cs20=9.08 mg/L)
+  const Cs20=9.08, CsT=Cs20*(1 - 0.0182*(T-20));
+  const CL=2; // mg/L DO hoạt động
+  const OCt=OC0/(alphaO*((CsT-CL)/Cs20)*Math.pow(1.024,T-20));
+  const Fae=Vae/aeH;
+  document.getElementById('ae_out').innerHTML=thead+
+    row('Thể tích bể V',fmt(Vae,1),'m³')+
+    row('Diện tích mặt bằng F',fmt(Fae,1),'m²')+
+    row('HRT (thời gian lưu)',fmt(HRT,2),'giờ')+
+    row('F/M',fmt(FM,3),'kgBOD/kgVSS.ngày')+
+    row('Lượng bùn sinh ra P<sub>x</sub>',fmt(Px,1),'kg VSS/ngày')+
+    row('Nhu cầu O₂ lý thuyết OC₀',fmt(OC0,1),'kg O₂/ngày')+
+    row('Nhu cầu O₂ thực tế OC<sub>t</sub>',fmt(OCt,1),'kg O₂/ngày')+
+    row('Lưu lượng khí (OU=7 g O₂/m³/m sâu)',fmt(OCt*1000/(7*aeH*1.024)/24/60,1),'m³/phút');
+  G.ae={Vae,Fae,HRT,Px,OCt};
+
+  // ---- T6 Lắng 2 ----
+  const l2U=v('l2_U'), l2Lb=v('l2_Lb'), l2t=v('l2_t'), l2a=v('l2_a'), l2H=v('l2_H');
+  const Qtt=Qh_max*(1+l2a);
+  const F2a=Qtt/l2U;                     // theo tải thủy lực
+  const F2b=(Qtt*X*1e-3)/l2Lb;           // theo tải bùn
+  const F2=Math.max(F2a,F2b);
+  const D2=Math.sqrt(4*F2/Math.PI);
+  const V2=Qtt*l2t;
+  document.getElementById('l2_out').innerHTML=thead+
+    row('Q tính toán (có tuần hoàn)',fmt(Qtt,1),'m³/h')+
+    row('F theo tải thuỷ lực',fmt(F2a,1),'m²')+
+    row('F theo tải bùn',fmt(F2b,1),'m²')+
+    row('F chọn',fmt(F2,1),'m²')+
+    row('Đường kính D',fmt(D2,2),'m')+
+    row('Thể tích V',fmt(V2,1),'m³');
+  G.l2={F2,D2,V2};
+
+  // ---- T7 Khử trùng ----
+  const kta=v('kt_a'), ktt=v('kt_t'), ktc=v('kt_c');
+  const mCl=Q*kta*1e-3;
+  const Vkt=Qh_max*ktt/60;
+  const Vdd=mCl/(ktc*10);
+  document.getElementById('kt_out').innerHTML=thead+
+    row('Lượng Clo hoạt tính cần',fmt(mCl,2),'kg/ngày')+
+    row('Thể tích bể tiếp xúc V',fmt(Vkt,2),'m³')+
+    row('Thể tích dung dịch Clo',fmt(Vdd*1000,0),'L/ngày');
+  G.kt={mCl,Vkt};
+
+  // ---- T8 Nén bùn ----
+  const c0=v('nb_c0'), c1=v('nb_c1'), nbL=v('nb_L'), nbH=v('nb_H');
+  const Pxkg=G.ae.Px||0;
+  const Qvao=Pxkg/c0;
+  const Qra=Pxkg/c1;
+  const Fnb=Pxkg/nbL;
+  const Vnb=Fnb*nbH;
+  document.getElementById('nb_out').innerHTML=thead+
+    row('Lượng bùn dư vào',fmt(Pxkg,1),'kg/ngày')+
+    row('Lưu lượng bùn vào',fmt(Qvao,2),'m³/ngày')+
+    row('Lưu lượng bùn sau nén',fmt(Qra,2),'m³/ngày')+
+    row('Diện tích F',fmt(Fnb,2),'m²')+
+    row('Thể tích V',fmt(Vnb,2),'m³');
+  G.nb={Fnb,Vnb};
+
+  // ---- T9 UASB ----
+  const uOLR=v('u_OLR'), uv=v('u_v'), ue=v('u_e')/100, uH=v('u_H');
+  const Lcod=Q*COD*1e-3;
+  const Vu=Lcod/uOLR;
+  const Fu=Q/(24*uv);
+  const Hcheck=Vu/Fu;
+  const CH4=0.35*Lcod*ue;
+  document.getElementById('u_out').innerHTML=thead+
+    row('Tải lượng COD vào',fmt(Lcod,1),'kg COD/ngày')+
+    row('Thể tích bể V',fmt(Vu,1),'m³')+
+    row('Diện tích F (theo v đi lên)',fmt(Fu,1),'m²')+
+    row('Chiều cao kiểm tra H',fmt(Hcheck,2),'m')+
+    row('Sinh khí CH₄ ước tính',fmt(CH4,1),'m³/ngày')+
+    row('COD sau UASB',fmt(COD*(1-ue),0),'mg/L');
+  G.u={Vu,Fu,CH4};
+
+  // ---- T10 MBBR ----
+  const SALR=v('m_SALR'), SSA=v('m_SSA'), fill=v('m_fill'), mH=v('m_H'), Sin=v('m_Sin'), Sout_m=v('m_Sout');
+  const Lbod=Q*(Sin-Sout_m)*1e-3;
+  const Am=Lbod*1000/SALR;
+  const Vg=Am/SSA;
+  const Vm=Vg/(fill/100);
+  const Fm=Vm/mH;
+  document.getElementById('m_out').innerHTML=thead+
+    row('Tải BOD cần xử lý',fmt(Lbod,1),'kg BOD/ngày')+
+    row('Diện tích giá thể cần A',fmt(Am,0),'m²')+
+    row('Thể tích giá thể V<sub>g</sub>',fmt(Vg,1),'m³')+
+    row('Thể tích bể V',fmt(Vm,1),'m³')+
+    row('Diện tích mặt bằng F',fmt(Fm,1),'m²');
+  G.m={Vm,Fm};
+
+  // ---- T11 SBR ----
+  const N=v('sbr_N'), Tc=v('sbr_Tc'), nn=v('sbr_n'), f2=v('sbr_f')/100, sbrH=v('sbr_H');
+  const V1me=Q/(N*nn);
+  const Vsbr=V1me/f2;
+  const Fsbr=Vsbr/sbrH;
+  document.getElementById('sbr_out').innerHTML=thead+
+    row('Thể tích 1 mẻ (nước rút)',fmt(V1me,1),'m³')+
+    row('Thể tích bể V',fmt(Vsbr,1),'m³')+
+    row('Diện tích F',fmt(Fsbr,1),'m²')+
+    row('Số bể',N,'bể')+
+    row('Chu kỳ',Tc,'h');
+  G.sbr={Vsbr,Fsbr};
+
+  // ---- T12 Hoá lý ----
+  const dose=v('hl_dose'), t1=v('hl_t1'), t2=v('hl_t2'), G1=v('hl_G1'), G2=v('hl_G2'), hlc=v('hl_c');
+  const mPAC=Q*dose*1e-3;
+  const Vtr=Qs*t1;
+  const Vtb=Qs*t2*60;
+  const Ptr=1e-3*Vtr*G1*G1;   // W
+  const Ptb=1e-3*Vtb*G2*G2;
+  const Vdd2=mPAC/(hlc*10);
+  document.getElementById('hl_out').innerHTML=thead+
+    row('Lượng PAC tiêu thụ',fmt(mPAC,1),'kg/ngày')+
+    row('Dung dịch PAC pha',fmt(Vdd2*1000,0),'L/ngày')+
+    row('V bể trộn nhanh',fmt(Vtr,2),'m³')+
+    row('V bể tạo bông',fmt(Vtb,1),'m³')+
+    row('Công suất motor trộn nhanh',fmt(Ptr,0),'W')+
+    row('Công suất motor tạo bông',fmt(Ptb,0),'W');
+  G.hl={Vtr,Vtb,mPAC};
+
+  // ---- T13 DAF ----
+  const dU=v('daf_U'), dt=v('daf_t'), dAS=v('daf_AS'), dR=v('daf_R')/100, dPdaf=v('daf_P');
+  const Qt=Qh_max*(1+dR);
+  const Fd=Qt/dU;
+  const Vd=Qt*dt/60;
+  const Qrec=Qh_max*dR;
+  const QairDaf=dAS*SS*Q*1e-3; // kg/ngày
+  document.getElementById('daf_out').innerHTML=thead+
+    row('Q tính toán (có tuần hoàn)',fmt(Qt,1),'m³/h')+
+    row('Diện tích F',fmt(Fd,1),'m²')+
+    row('Thể tích V',fmt(Vd,1),'m³')+
+    row('Q nước tuần hoàn',fmt(Qrec,1),'m³/h')+
+    row('Lượng khí hoà tan cần',fmt(QairDaf,2),'kg/ngày');
+  G.daf={Fd,Vd};
+
+  // ---- T15 Khử Nitơ ----
+  const NH4=v('n_NH4'), NH4o=v('n_NH4o'), TNo=v('n_TNo');
+  const umax=v('n_umax'), Kn=v('n_Kn'), KO2=v('n_KO2'), kdn=v('n_kdn'), DOv=v('n_DO'), SF=v('n_SF');
+  const SDNR20=v('n_SDNR'), Xn=v('n_X'), Rn=v('n_R'), Hn=v('n_H');
+  // Tốc độ tăng trưởng vi sinh nitrat hoá ở nhiệt độ T, tại NH4 ra (điều kiện kiểm soát)
+  const un_T=umax*Math.pow(1.07,T-20)*(NH4o/(Kn+NH4o))*(DOv/(KO2+DOv))-kdn;
+  const SRTmin=un_T>0?1/un_T:0;
+  const SRTtk=SF*SRTmin;
+  const loadN=Q*(NH4-NH4o)*1e-3;          // kg N/ngày nitrat hoá
+  const O2N=4.57*loadN;                   // kg O2/ngày cho nitrat hoá
+  const alkN=7.14*loadN;                  // kg CaCO3/ngày
+  // Khử nitrat
+  const Nassim=0.12*(G.ae.Px||0);         // kg N/ngày đồng hoá vào sinh khối
+  const loadDenit=Math.max(0, Q*(NH4-NH4o)*1e-3 - Q*TNo*1e-3 - Nassim);  // kg NO3-N/ngày cần khử
+  const SDNR_T=SDNR20*Math.pow(1.08,T-20);
+  const Vanox=loadDenit/(SDNR_T*Xn*1e-3);
+  const Fanox=Vanox/Hn;
+  const IR=Math.max(0,(NH4-NH4o)/Math.max(TNo,0.1)-1-Rn);
+  const O2recover=2.86*loadDenit;         // kg O2/ngày tiết kiệm được
+  document.getElementById('n_out1').innerHTML=thead+
+    row('μ<sub>n</sub>(T)',fmt(un_T,3),'1/ngày')+
+    row('SRT<sub>min</sub>',fmt(SRTmin,2),'ngày')+
+    row('SRT thiết kế (SF·SRT<sub>min</sub>)',fmt(SRTtk,2),'ngày — so với θ<sub>c</sub> Aerotank='+v('ae_tc')+' ngày')+
+    row('Tải N nitrat hoá',fmt(loadN,2),'kg N/ngày')+
+    row('O₂ bổ sung cho nitrat hoá',fmt(O2N,1),'kg O₂/ngày')+
+    row('Kiềm tiêu thụ (CaCO₃)',fmt(alkN,1),'kg/ngày')+
+    row('Cảnh báo',SRTtk>v('ae_tc')?'⚠ θ<sub>c</sub> Aerotank quá nhỏ, cần tăng ≥ '+fmt(SRTtk,1)+' ngày':'✓ θ<sub>c</sub> đủ cho nitrat hoá','');
+  document.getElementById('n_out2').innerHTML=thead+
+    row('N đồng hoá vào sinh khối',fmt(Nassim,1),'kg N/ngày')+
+    row('Tải NO₃-N cần khử nitrat',fmt(loadDenit,1),'kg N/ngày')+
+    row('SDNR hiệu chỉnh T',fmt(SDNR_T,3),'kg/kgVSS.ngày')+
+    row('Thể tích bể Anoxic V',fmt(Vanox,1),'m³')+
+    row('Diện tích mặt bằng F',fmt(Fanox,1),'m²')+
+    row('Tỷ lệ tuần hoàn nội IR',fmt(IR,2),'lần Q')+
+    row('O₂ thu hồi từ denit',fmt(O2recover,1),'kg O₂/ngày');
+  G.kn={Vanox,Fanox,loadN,SRTtk,O2N,alkN,loadDenit,IR};
+
+  // ---- T16 Bơm - Máy thổi khí ----
+  const Qp=v('p_Q'), Hh=v('p_Hh'), dh=v('p_dh'), etap=v('p_eta'), Kb=v('p_Kb');
+  const Htot=Hh+dh;
+  const Nb=Qp*Htot/(367*etap);           // kW (công thức quen thuộc)
+  const Nchon=Kb*Nb;
+  document.getElementById('p_out').innerHTML=thead+
+    row('Cột áp tổng H',fmt(Htot,1),'m')+
+    row('Công suất tính N<sub>b</sub>',fmt(Nb,2),'kW')+
+    row('Công suất chọn (có dự trữ)',fmt(Nchon,2),'kW')+
+    row('Số bơm đề xuất','2 (1 chạy + 1 dự phòng)','—')+
+    row('Lưu lượng 1 bơm',fmt(Qp,1),'m³/h');
+
+  const Qair=v('b_Q'), Hd=v('b_Hd'), dP=v('b_dP'), Tb=v('b_T'), eb=v('b_e'), Kmt=v('b_K');
+  const P1=101.3;                         // kPa tuyệt đối
+  const P2=P1 + 9.81*Hd + dP;             // kPa
+  const ratio=P2/P1;
+  // P (kW) = (ρ·Q·Cp·T1/e) · [(P2/P1)^0.283 - 1], ρ=1.2 kg/m³, Cp=1.005 kJ/kg.K
+  const G_air=1.2*(Qair/60);              // kg/s
+  const Pb=(G_air*1.005*(Tb+273)/eb)*(Math.pow(ratio,0.283)-1);
+  const Pbchon=Kmt*Pb;
+  document.getElementById('b_out').innerHTML=thead+
+    row('Áp suất hút P₁',fmt(P1,1),'kPa')+
+    row('Áp suất đẩy P₂',fmt(P2,1),'kPa')+
+    row('Tỷ số nén P₂/P₁',fmt(ratio,3),'—')+
+    row('Lưu lượng khối khí G',fmt(G_air,3),'kg/s')+
+    row('Công suất tính P<sub>mt</sub>',fmt(Pb,2),'kW')+
+    row('Công suất chọn (có dự trữ)',fmt(Pbchon,2),'kW')+
+    row('Số máy đề xuất','2 (1 chạy + 1 dự phòng)','—');
+  G.pb={Nchon,Pbchon,Qp,Qair};
+
+  // ---- T14 Tổng hợp ----
+  document.getElementById('tong_out').innerHTML=
+    `<thead><tr><th>Công trình</th><th>Kích thước chính</th><th>Thể tích/Diện tích</th><th>Ghi chú</th></tr></thead>`+
+    `<tr><td>Song chắn rác</td><td>B=${fmt(G.sc.B,2)} m; n=${G.sc.n} khe</td><td>—</td><td>h<sub>s</sub>=${fmt(G.sc.hs*1000,0)} mm</td></tr>`+
+    `<tr><td>Lắng cát</td><td>L=${fmt(G.lc.L,1)}×B=${fmt(G.lc.Bw,1)} m</td><td>V=${fmt(G.lc.Vlc,1)} m³</td><td>2 đơn nguyên</td></tr>`+
+    `<tr><td>Điều hoà</td><td>F=${fmt(G.dh.Fdh,0)} m²</td><td>V=${fmt(G.dh.Vdh,0)} m³</td><td>Q<sub>khí</sub>=${fmt(G.dh.Qkk,0)} m³/h</td></tr>`+
+    `<tr><td>Lắng 1</td><td>D=${fmt(G.l1.D1,1)} m</td><td>V=${fmt(G.l1.V1,0)} m³</td><td>SS ra ${fmt(G.l1.SSap1,0)} mg/L</td></tr>`+
+    `<tr><td>Aerotank</td><td>F=${fmt(G.ae.Fae,0)} m²</td><td>V=${fmt(G.ae.Vae,0)} m³</td><td>OC=${fmt(G.ae.OCt,0)} kgO₂/ngày</td></tr>`+
+    `<tr><td>Lắng 2</td><td>D=${fmt(G.l2.D2,1)} m</td><td>V=${fmt(G.l2.V2,0)} m³</td><td>F=${fmt(G.l2.F2,0)} m²</td></tr>`+
+    `<tr><td>Khử trùng</td><td>—</td><td>V=${fmt(G.kt.Vkt,1)} m³</td><td>Clo ${fmt(G.kt.mCl,1)} kg/ngày</td></tr>`+
+    `<tr><td>Nén bùn</td><td>F=${fmt(G.nb.Fnb,1)} m²</td><td>V=${fmt(G.nb.Vnb,1)} m³</td><td>—</td></tr>`+
+    `<tr><td>UASB</td><td>F=${fmt(G.u.Fu,0)} m²</td><td>V=${fmt(G.u.Vu,0)} m³</td><td>CH₄ ${fmt(G.u.CH4,0)} m³/ngày</td></tr>`+
+    `<tr><td>MBBR</td><td>F=${fmt(G.m.Fm,0)} m²</td><td>V=${fmt(G.m.Vm,0)} m³</td><td>—</td></tr>`+
+    `<tr><td>SBR</td><td>F=${fmt(G.sbr.Fsbr,0)} m²</td><td>V=${fmt(G.sbr.Vsbr,0)} m³</td><td>—</td></tr>`+
+    `<tr><td>Hoá lý keo tụ</td><td>—</td><td>V trộn+bông=${fmt(G.hl.Vtr+G.hl.Vtb,1)} m³</td><td>PAC ${fmt(G.hl.mPAC,0)} kg/ngày</td></tr>`+
+    `<tr><td>DAF</td><td>F=${fmt(G.daf.Fd,1)} m²</td><td>V=${fmt(G.daf.Vd,1)} m³</td><td>—</td></tr>`+
+    `<tr><td>Bể Anoxic (khử N)</td><td>F=${fmt(G.kn.Fanox,1)} m²</td><td>V=${fmt(G.kn.Vanox,1)} m³</td><td>IR=${fmt(G.kn.IR,2)}; O₂ nitrat hoá ${fmt(G.kn.O2N,0)} kg/ngày</td></tr>`+
+    `<tr><td>Bơm nâng</td><td>—</td><td>—</td><td>N=${fmt(G.pb.Nchon,2)} kW × 2 (Q=${fmt(G.pb.Qp,0)} m³/h)</td></tr>`+
+    `<tr><td>Máy thổi khí</td><td>—</td><td>—</td><td>P=${fmt(G.pb.Pbchon,2)} kW × 2 (Q=${fmt(G.pb.Qair,1)} m³/phút)</td></tr>`;
+}
+
+// ========== HƯỚNG DẪN SỬ DỤNG ==========
+const guides = {
+ t1:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>Nhập khe hở b</b>: 16 mm song thô, 6 mm song tinh; <b>bề dày s</b>: 8–10 mm (thanh thép chữ nhật).</li>
+  <li><b>Vận tốc v</b>: 0.8–1.0 m/s ở Q max (quá thấp sẽ lắng cặn, quá cao sẽ cuốn rác qua).</li>
+  <li><b>Góc α</b>: 60° cho cào cơ tự động; 45° cho cào tay.</li>
+  <li><b>Đọc kết quả</b>: <i>n</i> là số khe (dùng đặt song), <i>B</i> là bề rộng mương đặt song, <i>hs</i> là tổn thất áp lực.</li></ol>
+  <b>⚠ Cảnh báo:</b> Nếu hs > 150 mm → bắt buộc cào rác tự động; nếu n < 10 → chọn song ngắn hơn.`,
+
+ t2:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>v</b> = 0.3 m/s (khi Q max), 0.15 m/s (Q trung bình) — giữ vận tốc hằng số để lắng chọn lọc hạt cát.</li>
+  <li><b>t</b> = 30–60 s; <b>H</b> = 0.5–1 m; <b>n</b> ≥ 2 đơn nguyên để nạo vét luân phiên mà không dừng trạm.</li>
+  <li>Kiểm tra tỷ lệ <i>L/B ≥ 2.5</i>. Nếu không đạt → tăng vận tốc hoặc chia nhỏ đơn nguyên.</li></ol>
+  <b>Khi nào dùng:</b> Trạm > 1000 m³/ngđ hoặc nước thải có nhiều cát (cống hợp lưu, nước thải đô thị).`,
+
+ t3:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>t</b> = 4–8 h (sinh hoạt), 8–12 h (công nghiệp thay đổi mạnh). Càng biến động nhiều thì t càng lớn.</li>
+  <li><b>H</b> = 4–6 m; <b>q<sub>kk</sub></b> = 3.74–4 m³/m³.h khi khuấy bằng khí.</li>
+  <li><b>Đọc V, Q<sub>khí</sub></b> → nhập vào tab "Bơm - Máy thổi khí" để chọn máy.</li></ol>
+  <b>Mẹo:</b> Có thể thay khuấy khí bằng khuấy cơ để giảm điện năng nếu không cần cấp oxy song song.`,
+
+ t4:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>U₀</b> = 1.5–2.5 m³/m².h; <b>t</b> = 1.5–2.5 h; <b>H</b> = 3 m.</li>
+  <li><b>η SS</b> = 50–70% (cao nếu SS vào cao); <b>η BOD</b> = 25–40%.</li>
+  <li><b>Lấy BOD và SS sau lắng 1</b> → nhập vào ô "S₀" của tab Aerotank.</li></ol>
+  <b>Bỏ qua khi:</b> SS đầu vào < 150 mg/L, hoặc chọn công nghệ A²/O, MBBR không cần lắng 1.`,
+
+ t5:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>S₀</b> = BOD sau lắng 1 (copy từ tab 4). <b>S</b> = BOD mục tiêu ra, ví dụ 20 mg/L để đạt QCVN 14 cột A.</li>
+  <li><b>X (MLVSS)</b> = 3000–4000 mg/L; <b>θ<sub>c</sub></b> = 5–7 ngày nếu chỉ khử BOD, 10–15 ngày nếu có nitrat hoá.</li>
+  <li><b>Y</b> = 0.6, <b>k<sub>d</sub></b> = 0.06 là giá trị kinh điển cho NT sinh hoạt.</li>
+  <li>Kết quả OC thực (kgO₂/ngày) và Q<sub>kk</sub> (m³/phút) → nhập vào tab "Bơm - Máy thổi khí".</li></ol>
+  <b>⚠ Kiểm tra F/M:</b> phải trong 0.2–0.6. Nếu > 0.6 → tăng V bể hoặc tăng X; nếu < 0.2 → tải thấp, bùn già.`,
+
+ t6:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>U₀</b> = 0.8–1.2 m³/m².h; <b>L<sub>b</sub></b> (tải trọng bùn) = 3.6–6 kg/m².h.</li>
+  <li><b>α</b> (tuần hoàn bùn) = 0.5–1.0 — lấy đồng nhất với tab khử N nếu có.</li>
+  <li><b>F chọn</b> tự lấy max giữa tải thuỷ lực và tải bùn — không sửa.</li></ol>
+  <b>Mẹo:</b> Chiều sâu ≥ 3.5 m để có đủ vùng nén bùn đáy.`,
+
+ t7:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>Liều Clo a</b>: 3 mg/L sau sinh học, 5–10 mg/L sau hoá lý, 10–15 mg/L nước thải thô.</li>
+  <li><b>t tiếp xúc</b> ≥ 30 phút (CT ≥ 15 mg.phút/L theo WHO).</li>
+  <li><b>c%</b> = nồng độ dung dịch Javen (NaOCl thương mại thường 10%).</li></ol>
+  <b>Đọc:</b> "Lượng Clo kg/ngày" để ký hợp đồng mua; "V bể tiếp xúc" để thiết kế bể zigzag.`,
+
+ t8:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>Px</b> (bùn dư) — đọc từ tab 5 Aerotank (kết quả "Bùn sinh Px") rồi copy vào ô này.</li>
+  <li><b>C₀</b> = 8 kg/m³ (bùn từ lắng 2); <b>C₁</b> = 25 kg/m³ (sau nén trọng lực).</li>
+  <li><b>L</b> (tải) = 24–30 kg/m².ngày.</li></ol>
+  <b>Lưu ý:</b> Bùn sau nén còn 97.5% nước → thường tiếp tục sang máy ép bùn băng tải hoặc ép ly tâm.`,
+
+ t9:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <b>Chỉ dùng khi:</b> COD > 1500 mg/L và BOD/COD > 0.5 (nước thải thực phẩm, bia, chăn nuôi, cao su).
+  <ol><li><b>OLR</b> = 8–15 kgCOD/m³.ngày (khởi động từ giá trị thấp).</li>
+  <li><b>v</b> nước đi lên ≤ 1 m/h để giữ lớp bùn hạt ổn định.</li>
+  <li><b>η COD</b> = 70–85% tuỳ loại nước thải.</li></ol>
+  <b>Giá trị cộng thêm:</b> Sinh khí CH₄ có thể thu hồi để phát điện hoặc đun lò hơi.`,
+
+ t10:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>SALR</b> = 5–8 g BOD/m².ngày (MBBR kết hợp nitrat hoá), 8–15 (chỉ khử BOD).</li>
+  <li><b>SSA</b> theo loại giá thể: K1/K3 = 500 m²/m³, MB3 = 640, Kaldnes K5 = 800.</li>
+  <li><b>f lấp đầy</b> = 40–60%, không vượt 67% (giá thể sẽ dính cục).</li></ol>
+  <b>Khi nào dùng:</b> Cần mặt bằng nhỏ, cải tạo bể cũ, hoặc kết hợp Aerotank để nâng công suất.`,
+
+ t11:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>N ≥ 2 bể</b> để vận hành liên tục (khi 1 bể đang rút thì bể kia nhận nước).</li>
+  <li><b>T<sub>c</sub></b> = 4–8 h; <b>n chu kỳ/ngày</b> = 24/T<sub>c</sub>.</li>
+  <li><b>f rút</b> = 20–40% — nước rút ra trong giai đoạn decant.</li></ol>
+  <b>Ưu điểm:</b> Không cần lắng 2 riêng, không cần bơm tuần hoàn bùn. <b>Nhược:</b> Cần PLC và thiết bị rút nước tự động, vận hành phức tạp.`,
+
+ t12:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <ol><li><b>Liều PAC</b> PHẢI lấy từ <i>Jar Test</i> trên mẫu nước thật (30–100 mg/L tuỳ độ đục/màu).</li>
+  <li><b>G₁ trộn nhanh</b> = 700–1000 /s trong 30–90 s; <b>G₂ tạo bông</b> = 20–70 /s trong 20–30 phút.</li>
+  <li><b>c%</b> dung dịch pha 5–10% khối lượng.</li></ol>
+  <b>Dùng khi:</b> Nước thải có độ màu cao, kim loại nặng, SS dạng keo, nước thải khó phân huỷ sinh học.`,
+
+ t13:`<h4>📘 Hướng dẫn sử dụng</h4>
+  <b>Dùng khi:</b> Nước thải có dầu mỡ, SS nhẹ, lông/sợi (chế biến thuỷ sản, dệt nhuộm, giết mổ).
+  <ol><li><b>U₀</b> = 5–10 m³/m².h; <b>t</b> = 20–40 phút.</li>
+  <li><b>A/S</b> = 0.02–0.06 (thấp khi SS thấp); <b>R</b> tuần hoàn 20–40%.</li>
+  <li><b>P</b> bình khí = 4–6 bar (bơm tuần hoàn có tích hợp bão hoà khí).</li></ol>`,
+
+ t15:`<h4>📘 Hướng dẫn sử dụng — Khử Nitơ</h4>
+  <ol><li><b>NH₄ vào</b> ≈ 0.7–0.8 × TN (TN lấy từ sheet Đầu vào). <b>NH₄ ra</b> 5 mg/L (QCVN 14 cột A). <b>TN ra</b> 15–20.</li>
+  <li><b>SF</b> = 2 (an toàn kinh điển); <b>SDNR</b> 0.1 ở 20°C (tăng theo nhiệt độ).</li>
+  <li><b>So sánh SRT thiết kế với θ<sub>c</sub> Aerotank tab 5</b>: nếu lớn hơn → phải quay lại tab 5 tăng θ<sub>c</sub> (thường 12–15 ngày).</li>
+  <li><b>V anoxic</b> thường 20–40% V Aerotank. <b>IR</b> là tỷ lệ tuần hoàn nội (bơm từ cuối hiếu khí về đầu anoxic) — chọn bơm riêng.</li></ol>
+  <b>⚠ Cảnh báo:</b> Nếu BOD/TKN < 4 → thiếu carbon cho khử nitrat → cần bổ sung methanol hoặc acetate.`,
+
+ t16:`<h4>📘 Hướng dẫn sử dụng — Bơm &amp; Máy thổi khí</h4>
+  <b>BƠM NÂNG:</b>
+  <ol><li><b>Q bơm</b> = Q<sub>giờ max</sub> (hiển thị ở đầu trang).</li>
+  <li><b>H<sub>h</sub> hình học</b> = chênh lệch cao trình mực nước hố bơm → cao trình nước bể tiếp theo.</li>
+  <li><b>Δh</b> = 1–3 m (tổn thất đường ống + co, van, lưới chắn).</li>
+  <li><b>η</b> = 0.65 cho bơm chìm ly tâm; <b>K<sub>b</sub></b> = 1.15 hệ số dự trữ.</li></ol>
+  <b>MÁY THỔI KHÍ:</b>
+  <ol><li><b>Q khí</b> (m³/phút) — lấy trực tiếp từ tab 5 Aerotank ("Lưu lượng khí").</li>
+  <li><b>H<sub>đ</sub></b> = chiều sâu bể hiếu khí − 0.5 m (đĩa đặt cách đáy 0.3–0.5 m).</li>
+  <li><b>ΔP</b> = 30–50 kPa cho đĩa mịn mới; cộng thêm 10–20 kPa khi đĩa bị bám bẩn.</li>
+  <li><b>Hiệu suất e</b> = 0.7 cho Roots blower, 0.75–0.8 cho máy thổi ly tâm.</li></ol>
+  <b>Đọc:</b> "Công suất chọn" (có kèm hệ số dự trữ) dùng để lên quy cách mua máy. Luôn chọn 2 máy (1 chạy + 1 dự phòng).`
+};
+
+Object.keys(guides).forEach(id=>{
+  const panel=document.getElementById(id);
+  if(panel){
+    const div=document.createElement('div');
+    div.className='guide';
+    div.innerHTML=guides[id];
+    panel.appendChild(div);
+  }
+});
+
+// khởi tạo
+calcAll();
+</script>
+</body>
+</html>
+
+
+

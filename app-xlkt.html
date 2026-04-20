@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Ứng dụng tính toán Hệ thống Xử lý Khí thải — NC Environment</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
+body{margin:0;background:#f3f6f5;color:#1b2b25}
+header{background:linear-gradient(135deg,#0b4f6c,#1b98b7);color:#fff;padding:18px 28px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+header h1{margin:0;font-size:22px}
+header p{margin:4px 0 0;opacity:.9;font-size:13px}
+.wrap{max-width:1200px;margin:22px auto;padding:0 20px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:22px 26px;margin-bottom:18px}
+h2{color:#0b4f6c;font-size:17px;border-left:5px solid #1b98b7;padding-left:10px;margin:0 0 14px}
+h3{color:#0b4f6c;font-size:14px;margin:12px 0 6px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 14px}
+.grid label{font-size:12px;color:#274b53;display:flex;flex-direction:column;gap:3px}
+.grid input{border:1px solid #b7cad1;border-radius:6px;padding:7px 9px;font-size:13px;background:#fffbe8;font-weight:600;color:#003366}
+.grid input:focus{outline:2px solid #1b98b7;background:#fff}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 12px;border-bottom:2px solid #1b98b7}
+.tabs button{border:none;background:#e0ecef;color:#0b4f6c;padding:9px 13px;font-size:12px;font-weight:600;border-radius:8px 8px 0 0;cursor:pointer}
+.tabs button.active{background:#1b98b7;color:#fff}
+.panel{display:none}
+.panel.active{display:block}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{border:1px solid #cfdbdf;padding:7px 9px;text-align:left}
+th{background:#eaf4f7;color:#0b4f6c}
+td:nth-child(2){text-align:right;font-weight:700;color:#0c5e0c;background:#f0f8f0}
+.note{background:#fff8dc;border-left:4px solid #e0a800;padding:9px 13px;margin-top:10px;font-size:12px;color:#5c4a00;border-radius:0 8px 8px 0}
+.guide{background:#eaf4fc;border-left:4px solid #2b7bbd;padding:13px 17px;font-size:12.5px;margin-top:13px;border-radius:0 8px 8px 0;color:#0d3b66;line-height:1.65}
+.guide h4{margin:0 0 6px;color:#0d3b66;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+.guide ol{margin:5px 0 5px 17px;padding:0}
+.guide li{margin-bottom:3px}
+.guide b{color:#074d37}
+footer{text-align:center;color:#5c7680;font-size:12px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>ỨNG DỤNG TÍNH TOÁN HỆ THỐNG XỬ LÝ KHÍ THẢI</h1>
+<p>Công ty TNHH Tư vấn Tài nguyên & Môi trường NC — Dựa trên Trần Ngọc Chấn "Ô nhiễm không khí & XLKT" (tập 1-3), QCVN 19/20/30:2009/BTNMT</p>
+</header>
+<div class="wrap">
+
+<div class="card">
+<h2>THÔNG SỐ ĐẦU VÀO CHUNG</h2>
+<div class="grid">
+<label>Lưu lượng Q (m³/h, ở T vận hành)<input id="Q" type="number" value="10000" step="100"></label>
+<label>Nhiệt độ khí T (°C)<input id="T" type="number" value="150" step="1"></label>
+<label>Áp suất P (kPa)<input id="P" type="number" value="101.3" step="0.1"></label>
+<label>Độ ẩm khí (%)<input id="RH" type="number" value="10" step="1"></label>
+<label>Bụi vào Cbụi (mg/Nm³)<input id="Cd" type="number" value="5000" step="100"></label>
+<label>SO₂ vào (mg/Nm³)<input id="Cso2" type="number" value="1500" step="50"></label>
+<label>NOx vào (mg/Nm³)<input id="Cnox" type="number" value="400" step="10"></label>
+<label>VOC vào (mg/Nm³)<input id="Cvoc" type="number" value="300" step="10"></label>
+<label>CO vào (mg/Nm³)<input id="Cco" type="number" value="200" step="10"></label>
+<label>Khối lượng riêng hạt bụi ρp (kg/m³)<input id="rhop" type="number" value="2200" step="50"></label>
+<label>Đường kính hạt trung bình d (µm)<input id="dp" type="number" value="20" step="1"></label>
+<label>Độ nhớt khí µ (×10⁻⁵ Pa·s)<input id="mu" type="number" value="2.3" step="0.1"></label>
+<label>Bụi ra QCVN (mg/Nm³)<input id="Cdo" type="number" value="200" step="10"></label>
+<label>SO₂ ra QCVN (mg/Nm³)<input id="Cso2o" type="number" value="500" step="10"></label>
+<label>NOx ra QCVN (mg/Nm³)<input id="Cnoxo" type="number" value="850" step="10"></label>
+<label>VOC ra QCVN (mg/Nm³)<input id="Cvoco" type="number" value="20" step="1"></label>
+</div>
+<div class="note">Gợi ý: Nhập lưu lượng ở điều kiện vận hành (T thực). Chương trình tự quy về Nm³/h (0°C, 101.3 kPa). QCVN 19:2009/BTNMT cột B cho công nghiệp chung; QCVN 20:2009 cho hữu cơ; QCVN 30:2012 cho lò đốt chất thải.</div>
+</div>
+
+<div class="card">
+<h2>CÁC CÔNG TRÌNH XỬ LÝ</h2>
+<div class="tabs">
+<button class="active" data-t="t1">1. Buồng lắng bụi</button>
+<button data-t="t2">2. Cyclone</button>
+<button data-t="t3">3. Lọc túi vải</button>
+<button data-t="t4">4. Lọc tĩnh điện ESP</button>
+<button data-t="t5">5. Venturi scrubber</button>
+<button data-t="t6">6. Tháp hấp thụ</button>
+<button data-t="t7">7. Hấp phụ than HT</button>
+<button data-t="t8">8. Thiêu đốt / RTO</button>
+<button data-t="t9">9. Biofilter</button>
+<button data-t="t10">10. Ống khói</button>
+<button data-t="t11">11. Phát tán Gauss</button>
+<button data-t="t12">Tổng hợp</button>
+</div>
+
+<!-- T1 Buồng lắng -->
+<div id="t1" class="panel active">
+<h3>1. BUỒNG LẮNG BỤI TRỌNG LỰC (Gravity settling chamber)</h3>
+<div class="grid">
+<label>Chiều dài L (m)<input id="bl_L" type="number" value="6" step="0.5"></label>
+<label>Chiều rộng B (m)<input id="bl_B" type="number" value="3" step="0.5"></label>
+<label>Chiều cao H (m)<input id="bl_H" type="number" value="2" step="0.5"></label>
+<label>Số tầng n<input id="bl_n" type="number" value="1" step="1"></label>
+</div>
+<table id="bl_out"></table>
+</div>
+
+<!-- T2 Cyclone -->
+<div id="t2" class="panel">
+<h3>2. CYCLONE (Xiclon đơn)</h3>
+<div class="grid">
+<label>Đường kính thân D (m)<input id="cy_D" type="number" value="0.8" step="0.05"></label>
+<label>Số vòng xoáy hiệu dụng Ne<input id="cy_N" type="number" value="5" step="1"></label>
+<label>Tỷ lệ a/D (cửa vào)<input id="cy_a" type="number" value="0.5" step="0.05"></label>
+<label>Tỷ lệ b/D<input id="cy_b" type="number" value="0.25" step="0.05"></label>
+<label>Hệ số cản ξ<input id="cy_xi" type="number" value="8" step="0.5"></label>
+</div>
+<table id="cy_out"></table>
+</div>
+
+<!-- T3 Lọc túi -->
+<div id="t3" class="panel">
+<h3>3. LỌC TÚI VẢI (Bag filter)</h3>
+<div class="grid">
+<label>Tải trọng lọc A/C (m/phút)<input id="bg_ac" type="number" value="1.5" step="0.1"></label>
+<label>Đường kính túi d (m)<input id="bg_d" type="number" value="0.15" step="0.01"></label>
+<label>Chiều dài túi L (m)<input id="bg_L" type="number" value="3" step="0.5"></label>
+<label>Số ngăn ghép n<input id="bg_n" type="number" value="4" step="1"></label>
+<label>K1 vải sạch (Pa·phút/m)<input id="bg_K1" type="number" value="30" step="1"></label>
+<label>K2 cake (Pa·phút·m/g)<input id="bg_K2" type="number" value="5" step="0.5"></label>
+<label>Chu kỳ giũ t (phút)<input id="bg_t" type="number" value="30" step="1"></label>
+</div>
+<table id="bg_out"></table>
+</div>
+
+<!-- T4 ESP -->
+<div id="t4" class="panel">
+<h3>4. LỌC BỤI TĨNH ĐIỆN ESP (Electrostatic precipitator — Deutsch-Anderson)</h3>
+<div class="grid">
+<label>Vận tốc di chuyển hạt w (m/s)<input id="esp_w" type="number" value="0.12" step="0.01"></label>
+<label>Hiệu suất yêu cầu η (%)<input id="esp_eta" type="number" value="99" step="0.1"></label>
+<label>Khoảng cách tấm cực s (m)<input id="esp_s" type="number" value="0.3" step="0.05"></label>
+<label>Chiều cao tấm h (m)<input id="esp_h" type="number" value="6" step="0.5"></label>
+<label>Vận tốc khí qua ESP (m/s)<input id="esp_v" type="number" value="1.2" step="0.1"></label>
+</div>
+<table id="esp_out"></table>
+</div>
+
+<!-- T5 Venturi -->
+<div id="t5" class="panel">
+<h3>5. VENTURI SCRUBBER (Tháp tuyển nổi ướt kiểu Venturi)</h3>
+<div class="grid">
+<label>Vận tốc tại họng v_h (m/s)<input id="vt_v" type="number" value="80" step="5"></label>
+<label>Tỷ lệ L/G (L/m³)<input id="vt_LG" type="number" value="1.0" step="0.1"></label>
+<label>Hệ số f (Calvert)<input id="vt_f" type="number" value="0.25" step="0.05"></label>
+</div>
+<table id="vt_out"></table>
+</div>
+
+<!-- T6 Hấp thụ -->
+<div id="t6" class="panel">
+<h3>6. THÁP HẤP THỤ ĐỆM (Packed tower — xử lý SO₂/H₂S/NH₃ bằng NaOH)</h3>
+<div class="grid">
+<label>Khí cần xử lý: Cin (mg/Nm³)<input id="ht_Cin" type="number" value="1500" step="10"></label>
+<label>Cout yêu cầu (mg/Nm³)<input id="ht_Cout" type="number" value="300" step="10"></label>
+<label>Vận tốc khí qua tháp u (m/s)<input id="ht_u" type="number" value="1.5" step="0.1"></label>
+<label>HTU (m)<input id="ht_HTU" type="number" value="0.6" step="0.1"></label>
+<label>M khí đích (g/mol, SO₂=64)<input id="ht_M" type="number" value="64" step="1"></label>
+<label>Nồng độ NaOH dd (%)<input id="ht_Cna" type="number" value="10" step="1"></label>
+<label>Tỷ lệ dư α (so với stoich)<input id="ht_al" type="number" value="1.3" step="0.1"></label>
+</div>
+<table id="ht_out"></table>
+</div>
+
+<!-- T7 Hấp phụ -->
+<div id="t7" class="panel">
+<h3>7. HẤP PHỤ THAN HOẠT TÍNH (VOC, mùi)</h3>
+<div class="grid">
+<label>Tải trọng hấp phụ q (kg VOC/kg than)<input id="hp_q" type="number" value="0.15" step="0.01"></label>
+<label>Chu kỳ làm việc t (giờ)<input id="hp_t" type="number" value="8" step="1"></label>
+<label>Khối lượng riêng than (kg/m³)<input id="hp_rho" type="number" value="450" step="10"></label>
+<label>Vận tốc khí qua lớp v (m/s)<input id="hp_v" type="number" value="0.4" step="0.05"></label>
+<label>Chiều dày lớp H (m)<input id="hp_H" type="number" value="0.8" step="0.1"></label>
+</div>
+<table id="hp_out"></table>
+</div>
+
+<!-- T8 Thiêu đốt -->
+<div id="t8" class="panel">
+<h3>8. THIÊU ĐỐT / RTO (Regenerative Thermal Oxidizer)</h3>
+<div class="grid">
+<label>Nhiệt độ đốt Tc (°C)<input id="to_Tc" type="number" value="850" step="10"></label>
+<label>Thời gian lưu t (s)<input id="to_tr" type="number" value="1.0" step="0.1"></label>
+<label>Hiệu suất thu hồi nhiệt η (%)<input id="to_eta" type="number" value="95" step="1"></label>
+<label>Cp khí (kJ/kg·K)<input id="to_cp" type="number" value="1.05" step="0.01"></label>
+<label>Nhiệt trị thấp VOC (kJ/kg)<input id="to_LHV" type="number" value="42000" step="500"></label>
+<label>Nhiên liệu phụ LHV (kJ/kg)<input id="to_fuel" type="number" value="45000" step="500"></label>
+</div>
+<table id="to_out"></table>
+</div>
+
+<!-- T9 Biofilter -->
+<div id="t9" class="panel">
+<h3>9. BIOFILTER (Xử lý mùi, VOC nồng độ thấp)</h3>
+<div class="grid">
+<label>EBRT (giây)<input id="bf_ebrt" type="number" value="45" step="5"></label>
+<label>Chiều cao lớp vật liệu H (m)<input id="bf_H" type="number" value="1.0" step="0.1"></label>
+<label>Tải trọng khối EC (g/m³.h) — kiểm tra<input id="bf_EC" type="number" value="20" step="1"></label>
+<label>Hiệu suất khử η (%)<input id="bf_eta" type="number" value="90" step="1"></label>
+</div>
+<table id="bf_out"></table>
+</div>
+
+<!-- T10 Ống khói -->
+<div id="t10" class="panel">
+<h3>10. TÍNH ỐNG KHÓI</h3>
+<div class="grid">
+<label>Vận tốc miệng v (m/s)<input id="ok_v" type="number" value="20" step="1"></label>
+<label>Nhiệt độ khói Ts (°C)<input id="ok_Ts" type="number" value="150" step="5"></label>
+<label>Nhiệt độ không khí Ta (°C)<input id="ok_Ta" type="number" value="25" step="1"></label>
+<label>Vận tốc gió u (m/s)<input id="ok_u" type="number" value="3" step="0.5"></label>
+<label>Chiều cao thực Hs (m)<input id="ok_Hs" type="number" value="30" step="1"></label>
+</div>
+<table id="ok_out"></table>
+</div>
+
+<!-- T11 Phát tán -->
+<div id="t11" class="panel">
+<h3>11. PHÁT TÁN NỒNG ĐỘ — MÔ HÌNH GAUSS</h3>
+<div class="grid">
+<label>Phát thải M (g/s) (chọn chất)<input id="pt_M" type="number" value="5" step="0.1"></label>
+<label>Hạng ổn định Pasquill (A..F)<input id="pt_st" type="text" value="D"></label>
+<label>Khoảng cách x (m)<input id="pt_x" type="number" value="500" step="50"></label>
+<label>Vận tốc gió u (m/s)<input id="pt_u" type="number" value="3" step="0.5"></label>
+<label>Chiều cao hiệu dụng He (m)<input id="pt_He" type="number" value="50" step="1"></label>
+</div>
+<table id="pt_out"></table>
+</div>
+
+<!-- Tổng hợp -->
+<div id="t12" class="panel">
+<h3>BẢNG TỔNG HỢP</h3>
+<table id="tong_out"></table>
+</div>
+
+</div>
+<footer>© 2026 Công ty TNHH Tư vấn Tài nguyên & Môi trường NC — Ứng dụng tính toán XLKT v1.0</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const v=id=>parseFloat($(id).value)||0;
+const fmt=(x,n=2)=>isFinite(x)?Number(x).toLocaleString('vi-VN',{minimumFractionDigits:n,maximumFractionDigits:n}):'—';
+const thead='<thead><tr><th>Thông số</th><th>Giá trị</th><th>Đơn vị</th></tr></thead>';
+const row=(a,b,c)=>`<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>`;
+
+// bảng Pasquill đơn giản (công thức Briggs cho vùng nông thôn/đô thị: σy,σz ≈ a·x^b)
+const pasquill={
+  A:{ay:0.22,by:0.894,az:0.20,bz:1.00},
+  B:{ay:0.16,by:0.894,az:0.12,bz:1.00},
+  C:{ay:0.11,by:0.894,az:0.08,bz:0.911},
+  D:{ay:0.08,by:0.894,az:0.06,bz:0.806},
+  E:{ay:0.06,by:0.894,az:0.03,bz:0.700},
+  F:{ay:0.04,by:0.894,az:0.016,bz:0.700},
+};
+
+function calcAll(){
+  const Q=v('Q'), T=v('T'), P=v('P'), Cd=v('Cd'), Cso2=v('Cso2'), Cnox=v('Cnox'), Cvoc=v('Cvoc'), Cco=v('Cco');
+  const rhop=v('rhop'), dp_m=v('dp')*1e-6, mu=v('mu')*1e-5, Cdo=v('Cdo'), Cso2o=v('Cso2o'), Cnoxo=v('Cnoxo'), Cvoco=v('Cvoco');
+  const Qn = Q*273/(273+T)*P/101.3;      // Nm³/h
+  const Qs = Q/3600;                     // m³/s (vận hành)
+  const rho_g = 1.293*273/(273+T)*P/101.3; // kg/m³
+
+  const G={};
+
+  // ---- T1 Buồng lắng ----
+  const L1=v('bl_L'), B1=v('bl_B'), H1=v('bl_H'), n1=v('bl_n')||1;
+  const A_bl=L1*B1*n1;
+  const v_ngang=Qs/(B1*H1*n1);
+  const w_stokes=9.81*rhop*dp_m*dp_m/(18*mu);     // m/s
+  const eta_bl=Math.min(100, w_stokes*A_bl/Qs*100);
+  const dmin=Math.sqrt(18*mu*H1*v_ngang/(rhop*9.81*L1))*1e6; // µm
+  $('bl_out').innerHTML=thead+
+    row('Diện tích sàn A = L·B·n', fmt(A_bl,2), 'm²')+
+    row('Vận tốc khí ngang v', fmt(v_ngang,2), 'm/s (≤ 3)')+
+    row('Vận tốc lắng Stokes w (d='+v('dp')+' µm)', fmt(w_stokes,4), 'm/s')+
+    row('Đường kính hạt bị giữ tối thiểu d_min', fmt(dmin,1), 'µm')+
+    row('Hiệu suất η (d='+v('dp')+' µm)', fmt(eta_bl,1), '%')+
+    row('Bụi ra dự kiến', fmt(Cd*(1-eta_bl/100),0), 'mg/Nm³');
+  G.bl={A:A_bl,eta:eta_bl,dmin};
+
+  // ---- T2 Cyclone ----
+  const Dc=v('cy_D'), Ne=v('cy_N'), aR=v('cy_a'), bR=v('cy_b'), xi=v('cy_xi');
+  const a_c=aR*Dc, b_c=bR*Dc;
+  const v_in=Qs/(a_c*b_c);                         // vào cửa
+  const dp50=Math.sqrt(9*mu*b_c/(2*Math.PI*Ne*v_in*(rhop-rho_g)))*1e6; // µm
+  const eta_cy=100*1/(1+Math.pow(dp50/(v('dp')),2));
+  const dPcy=xi*rho_g*v_in*v_in/2;                 // Pa
+  $('cy_out').innerHTML=thead+
+    row('Cửa vào a × b', fmt(a_c,2)+' × '+fmt(b_c,2), 'm')+
+    row('Vận tốc vào v_in', fmt(v_in,2), 'm/s (15–25)')+
+    row('d₅₀ (đường kính cắt)', fmt(dp50,2), 'µm')+
+    row('Hiệu suất η (d='+v('dp')+' µm)', fmt(eta_cy,1), '%')+
+    row('Tổn thất áp ΔP', fmt(dPcy,0), 'Pa')+
+    row('Số cyclone song song nếu Q lớn', Math.ceil(Qs/(3.14159*Dc*Dc/4*18)), 'cái (v_trong ≈18 m/s)');
+  G.cy={dp50,eta:eta_cy,dP:dPcy};
+
+  // ---- T3 Lọc túi ----
+  const ac=v('bg_ac'), d_tui=v('bg_d'), L_tui=v('bg_L'), n_n=v('bg_n'), K1=v('bg_K1'), K2=v('bg_K2'), tb=v('bg_t');
+  const Qm=Q/60;                                     // m³/phút
+  const A_filter=Qm/ac;                              // m²
+  const A_1tui=Math.PI*d_tui*L_tui;
+  const n_tui=Math.ceil(A_filter/A_1tui);
+  const n_per=Math.ceil(n_tui/n_n);
+  const v_loc=ac/60;                                 // m/s
+  const mass_cake=Cd*Qn/60*tb*1e-6;                  // kg/chu kỳ cho toàn bộ túi... thực ra: g/m² = Cd(g/m³)·v(m/ph)·t
+  const w_cake_per = (Cd*1e-3)*(ac)*tb;              // g/m²
+  const dP_vai = K1*ac;                              // Pa
+  const dP_cake = K2*w_cake_per*ac;                  // Pa
+  $('bg_out').innerHTML=thead+
+    row('Diện tích lọc yêu cầu A', fmt(A_filter,1), 'm²')+
+    row('Số túi tổng', n_tui, 'túi')+
+    row('Số túi mỗi ngăn (×'+n_n+' ngăn)', n_per, 'túi')+
+    row('Vận tốc lọc v', fmt(v_loc,4), 'm/s')+
+    row('Tải cake cuối chu kỳ', fmt(w_cake_per,1), 'g/m²')+
+    row('ΔP vải sạch', fmt(dP_vai,0), 'Pa')+
+    row('ΔP cake', fmt(dP_cake,0), 'Pa')+
+    row('ΔP tổng', fmt(dP_vai+dP_cake,0), 'Pa (≤1500–2000)');
+  G.bg={A:A_filter,n:n_tui,dP:dP_vai+dP_cake};
+
+  // ---- T4 ESP ----
+  const w=v('esp_w'), etaE=v('esp_eta')/100, s=v('esp_s'), hE=v('esp_h'), vE=v('esp_v');
+  const A_esp=-Qs/w*Math.log(1-etaE);
+  const n_channel=Math.ceil(Qs/(s*hE*vE));
+  const L_total=A_esp/(2*hE*n_channel);              // 2 mặt tấm
+  $('esp_out').innerHTML=thead+
+    row('Diện tích thu bụi A (Deutsch)', fmt(A_esp,1), 'm²')+
+    row('Số kênh song song', n_channel, 'kênh')+
+    row('Chiều dài mỗi trường L', fmt(L_total,2), 'm')+
+    row('Tỷ lệ SCA = A/Q', fmt(A_esp/Qs,1), 's/m')+
+    row('Bụi ra dự kiến', fmt(Cd*(1-etaE),1), 'mg/Nm³');
+  G.esp={A:A_esp,n:n_channel};
+
+  // ---- T5 Venturi ----
+  const vh=v('vt_v'), LG=v('vt_LG'), fv=v('vt_f');
+  const A_throat=Qs/vh;
+  const d_throat=Math.sqrt(4*A_throat/Math.PI);
+  const dP_ven=1e-3*vh*vh*LG/2;                      // kPa (công thức Calvert gần đúng: ΔP≈ 5·10⁻⁴·v²·L/G, kPa)
+  // η theo Calvert: 1 - exp(-K·LG·vh²·dp² / ...); đơn giản hoá
+  const Kcal=fv*LG*vh*vh*(dp_m*1e6)*1e-6;            // số mũ rút gọn
+  const etaV=100*(1-Math.exp(-Kcal*50));
+  const Q_L=Q*LG*1e-3;                               // m³/h nước
+  $('vt_out').innerHTML=thead+
+    row('Diện tích họng A', fmt(A_throat,3), 'm²')+
+    row('Đường kính họng d', fmt(d_throat,3), 'm')+
+    row('Lưu lượng dung dịch', fmt(Q_L,1), 'm³/h')+
+    row('ΔP ước tính', fmt(dP_ven,2), 'kPa (3–10)')+
+    row('Hiệu suất η (d='+v('dp')+' µm)', fmt(Math.min(99.9,etaV),1), '%');
+  G.vt={A:A_throat,dP:dP_ven};
+
+  // ---- T6 Hấp thụ ----
+  const Cin=v('ht_Cin'), Cout=v('ht_Cout'), uT=v('ht_u'), HTU=v('ht_HTU'), Mw=v('ht_M'), Cna=v('ht_Cna'), al=v('ht_al');
+  const A_ht=Qs/uT;
+  const D_ht=Math.sqrt(4*A_ht/Math.PI);
+  const NTU=Math.log(Cin/Math.max(Cout,0.1));
+  const Z=NTU*HTU;
+  const mass_gas=Cin*Qn*1e-6;                        // kg/h khí cần loại
+  const mol_gas=mass_gas/Mw*1000;                    // mol/h
+  // NaOH: 2NaOH + SO2 → Na2SO3 + H2O, 2 mol NaOH / mol SO2
+  const mol_NaOH=2*mol_gas*al;
+  const kg_NaOH=mol_NaOH*40/1000;                    // kg/h
+  const V_dd=kg_NaOH/(Cna/100*1000)*1000;            // L/h (dd%)
+  $('ht_out').innerHTML=thead+
+    row('Diện tích tháp A', fmt(A_ht,2), 'm²')+
+    row('Đường kính tháp D', fmt(D_ht,2), 'm')+
+    row('NTU (đơn vị chuyển khối)', fmt(NTU,2), '—')+
+    row('Chiều cao lớp đệm Z', fmt(Z,2), 'm')+
+    row('Khối lượng khí cần xử lý', fmt(mass_gas,2), 'kg/h')+
+    row('NaOH tiêu thụ', fmt(kg_NaOH,2), 'kg/h')+
+    row('Dung dịch NaOH '+Cna+'%', fmt(V_dd,1), 'L/h');
+  G.ht={D:D_ht,Z,NaOH:kg_NaOH};
+
+  // ---- T7 Hấp phụ ----
+  const q=v('hp_q'), th=v('hp_t'), rho_c=v('hp_rho'), vc=v('hp_v'), Hc=v('hp_H');
+  const mass_voc=Cvoc*Qn*1e-6;                       // kg/h
+  const M_carbon=mass_voc*th/q;                      // kg/chu kỳ
+  const V_car=M_carbon/rho_c;
+  const A_hp=Qs/vc;
+  const D_hp=Math.sqrt(4*A_hp/Math.PI);
+  const V_theo_H=A_hp*Hc;
+  const ncol = Math.ceil(V_car/V_theo_H);
+  $('hp_out').innerHTML=thead+
+    row('Tải VOC vào', fmt(mass_voc,2), 'kg/h')+
+    row('Khối lượng than cần', fmt(M_carbon,1), 'kg/chu kỳ')+
+    row('Thể tích than V', fmt(V_car,2), 'm³')+
+    row('Diện tích cột A (v='+vc+' m/s)', fmt(A_hp,2), 'm²')+
+    row('Đường kính cột D', fmt(D_hp,2), 'm')+
+    row('V một cột (H='+Hc+' m)', fmt(V_theo_H,2), 'm³')+
+    row('Số cột song song', ncol, 'cột')+
+    row('Khuyến nghị', ncol<2?'2 cột (1 chạy + 1 tái sinh)':(ncol+' cột + 1 dự phòng'), '—');
+  G.hp={M:M_carbon,D:D_hp};
+
+  // ---- T8 Thiêu đốt ----
+  const Tc=v('to_Tc'), tr=v('to_tr'), etaTO=v('to_eta')/100, cp=v('to_cp'), LHV=v('to_LHV'), fuelLHV=v('to_fuel');
+  const Vch=Qs*(Tc+273)/(T+273)*tr;                  // thể tích buồng (quy về Tc)
+  const Gg=rho_g*Q;                                  // kg/h
+  const Q_nhiet=Gg*cp*(Tc-T)*(1-etaTO);              // kJ/h
+  const Q_VOC=Cvoc*Qn*1e-6*LHV;                      // kJ/h từ đốt cháy VOC
+  const Q_fuel_need=Math.max(0, Q_nhiet - Q_VOC);    // kJ/h cần bổ sung
+  const m_fuel=Q_fuel_need/fuelLHV;                  // kg/h
+  $('to_out').innerHTML=thead+
+    row('Thể tích buồng đốt V', fmt(Vch,2), 'm³')+
+    row('Lưu lượng khối khí', fmt(Gg,0), 'kg/h')+
+    row('Nhiệt cần cung cấp (sau thu hồi)', fmt(Q_nhiet/1000,0), 'MJ/h')+
+    row('Nhiệt từ đốt VOC', fmt(Q_VOC/1000,0), 'MJ/h')+
+    row('Nhiên liệu phụ cần', fmt(m_fuel,2), 'kg/h')+
+    row('Cảnh báo', Q_VOC>Q_nhiet?'✓ VOC đủ tự duy trì (autothermal)':'⚠ Cần bổ sung gas/dầu', '');
+  G.to={V:Vch,fuel:m_fuel};
+
+  // ---- T9 Biofilter ----
+  const ebrt=v('bf_ebrt'), Hb=v('bf_H'), EC_set=v('bf_EC'), eta_bf=v('bf_eta')/100;
+  const V_bf=Qs*ebrt;
+  const A_bf=V_bf/Hb;
+  const load_in=Cvoc*Qn*1e-3/V_bf;                   // g/m³.h tải khối
+  $('bf_out').innerHTML=thead+
+    row('Thể tích lớp vật liệu V', fmt(V_bf,1), 'm³')+
+    row('Diện tích mặt bằng A', fmt(A_bf,1), 'm²')+
+    row('Tải trọng khối (Inlet Load)', fmt(load_in,2), 'g/m³.h')+
+    row('So với EC thiết kế '+EC_set+' g/m³.h', load_in<EC_set?'✓ Đạt':'⚠ Quá tải, tăng V', '')+
+    row('VOC ra dự kiến', fmt(Cvoc*(1-eta_bf),1), 'mg/Nm³');
+  G.bf={V:V_bf,A:A_bf};
+
+  // ---- T10 Ống khói ----
+  const vOk=v('ok_v'), Ts=v('ok_Ts'), Ta=v('ok_Ta'), uw=v('ok_u'), HsOk=v('ok_Hs');
+  const Qs_ok=Q*(Ts+273)/(T+273)/3600;
+  const D_ok=Math.sqrt(4*Qs_ok/(Math.PI*vOk));
+  // Holland formula (ΔH, m): ΔH = v·D/u·(1.5 + 2.68·10⁻³·P·(Ts-Ta)/(Ts+273)·D)
+  const dH=vOk*D_ok/uw*(1.5 + 2.68e-3*v('P')*(Ts-Ta)/(Ts+273)*D_ok);
+  const He=HsOk+dH;
+  $('ok_out').innerHTML=thead+
+    row('Q thực tại miệng (T='+Ts+'°C)', fmt(Qs_ok*3600,0), 'm³/h')+
+    row('Đường kính miệng D', fmt(D_ok,2), 'm')+
+    row('ΔH nâng khói (Holland)', fmt(dH,1), 'm')+
+    row('Chiều cao hiệu dụng He', fmt(He,1), 'm')+
+    row('Gợi ý Hs tối thiểu', fmt(Math.max(15, HsOk),0), 'm (≥15 m)');
+  G.ok={D:D_ok,He};
+
+  // ---- T11 Phát tán Gauss ----
+  const Mp=v('pt_M'), st=$('pt_st').value.toUpperCase().trim(), x=v('pt_x'), upt=v('pt_u'), He2=v('pt_He');
+  const k=pasquill[st]||pasquill.D;
+  const sy=k.ay*Math.pow(x,k.by);
+  const sz=k.az*Math.pow(x,k.bz);
+  // C tại mặt đất trên trục: C = M/(π·u·σy·σz)·exp(-He²/2σz²)·10⁶ (mg/m³)
+  const Cmax=Mp/(Math.PI*upt*sy*sz)*Math.exp(-He2*He2/(2*sz*sz))*1e6;
+  const xMax = He2/Math.SQRT2 / k.az; // ước lượng vị trí nồng độ đỉnh (khi σz=He/√2)
+  const xMaxSolve = Math.pow(He2/(Math.sqrt(2)*k.az), 1/k.bz);
+  $('pt_out').innerHTML=thead+
+    row('σy (hạng '+st+')', fmt(sy,1), 'm')+
+    row('σz (hạng '+st+')', fmt(sz,1), 'm')+
+    row('Nồng độ tại x='+x+' m, y=0, z=0', fmt(Cmax,3), 'mg/m³ (µg/m³ × 1000)')+
+    row('Khoảng cách nồng độ cực đại x_max', fmt(xMaxSolve,0), 'm')+
+    row('Lưu ý', 'Công thức Briggs σ — chỉ dùng cho đánh giá sơ bộ', '');
+  G.pt={Cmax};
+
+  // ---- Tổng hợp ----
+  $('tong_out').innerHTML=
+    '<thead><tr><th>Công trình</th><th>Kích thước / Kết quả chính</th><th>Ghi chú</th></tr></thead>'+
+    `<tr><td>Buồng lắng bụi</td><td>A=${fmt(G.bl.A,1)} m²; η=${fmt(G.bl.eta,1)}%</td><td>d_min=${fmt(G.bl.dmin,1)} µm</td></tr>`+
+    `<tr><td>Cyclone</td><td>d₅₀=${fmt(G.cy.dp50,2)} µm; η=${fmt(G.cy.eta,1)}%</td><td>ΔP=${fmt(G.cy.dP,0)} Pa</td></tr>`+
+    `<tr><td>Lọc túi vải</td><td>A=${fmt(G.bg.A,1)} m²; ${G.bg.n} túi</td><td>ΔP=${fmt(G.bg.dP,0)} Pa</td></tr>`+
+    `<tr><td>ESP</td><td>A=${fmt(G.esp.A,0)} m²; ${G.esp.n} kênh</td><td>Deutsch-Anderson</td></tr>`+
+    `<tr><td>Venturi</td><td>A họng=${fmt(G.vt.A,3)} m²</td><td>ΔP=${fmt(G.vt.dP,2)} kPa</td></tr>`+
+    `<tr><td>Tháp hấp thụ</td><td>D=${fmt(G.ht.D,2)} m; Z=${fmt(G.ht.Z,2)} m</td><td>NaOH ${fmt(G.ht.NaOH,2)} kg/h</td></tr>`+
+    `<tr><td>Hấp phụ than</td><td>D=${fmt(G.hp.D,2)} m; M_than=${fmt(G.hp.M,0)} kg</td><td>—</td></tr>`+
+    `<tr><td>Thiêu đốt RTO</td><td>V=${fmt(G.to.V,1)} m³</td><td>Nhiên liệu ${fmt(G.to.fuel,2)} kg/h</td></tr>`+
+    `<tr><td>Biofilter</td><td>V=${fmt(G.bf.V,0)} m³; A=${fmt(G.bf.A,0)} m²</td><td>—</td></tr>`+
+    `<tr><td>Ống khói</td><td>D=${fmt(G.ok.D,2)} m; He=${fmt(G.ok.He,0)} m</td><td>—</td></tr>`+
+    `<tr><td>Phát tán Gauss</td><td>C=${fmt(G.pt.Cmax,3)} mg/m³</td><td>tại x, trên trục</td></tr>`;
+}
+
+// Tabs
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    $(b.dataset.t).classList.add('active');
+  };
+});
+document.querySelectorAll('input').forEach(i=>i.addEventListener('input',calcAll));
+
+// Guides
+const guides={
+  t1:`<h4>Hướng dẫn — Buồng lắng bụi</h4><ol>
+  <li>Nguyên tắc: hạt bụi thô (d ≥ 50 µm) lắng xuống sàn do trọng lực khi khí đi ngang qua buồng lớn, vận tốc thấp.</li>
+  <li>Chỉ nên dùng làm <b>cấp tiền xử lý</b> trước cyclone/bag filter — hiệu suất với hạt < 20 µm rất kém.</li>
+  <li>Vận tốc khí ngang giữ ≤ 3 m/s để tránh cuốn bụi lên lại. Chiều cao H 1.5–2.5 m; chia tầng n để giảm H hiệu dụng.</li>
+  <li>d_min là đường kính hạt nhỏ nhất bị giữ lại 100%. Nếu d_min > d trung bình → hiệu suất thấp, tăng L hoặc giảm v.</li>
+  </ol>`,
+  t2:`<h4>Hướng dẫn — Cyclone</h4><ol>
+  <li>D thân 0.3–1.5 m; Ne = 4–6 vòng hiệu dụng (Stairmand). Cửa vào chữ nhật a=0.5D, b=0.25D là kiểu cao hiệu suất.</li>
+  <li>Vận tốc cửa vào 15–25 m/s; thấp hơn giảm hiệu suất, cao hơn mài mòn vỏ.</li>
+  <li>d₅₀ là đường kính cắt (50% hiệu suất). Với hạt 20 µm, cyclone đơn thường đạt 85–92%.</li>
+  <li>Nếu Q > 3 m³/s nên dùng <b>multi-cyclone</b> song song (nhiều ống 150–250 mm) để tăng hiệu suất mà không quá ΔP.</li>
+  </ol>`,
+  t3:`<h4>Hướng dẫn — Lọc túi vải</h4><ol>
+  <li>A/C (tải trọng lọc): jet-pulse 1–3 m/phút; shaker 0.5–1 m/phút; reverse-air 0.5–1.2 m/phút.</li>
+  <li>Đường kính túi d = 125–160 mm, dài 3–6 m. Chia 3–6 ngăn để luân phiên giũ bụi không ngưng máy.</li>
+  <li>ΔP vận hành bình thường 1000–1500 Pa. Nếu > 2000 Pa → giũ không hiệu quả hoặc A/C quá cao.</li>
+  <li>Vật liệu: polyester 130°C; Nomex 200°C; PTFE 240°C; fiberglass 260°C.</li>
+  </ol>`,
+  t4:`<h4>Hướng dẫn — ESP</h4><ol>
+  <li>Công thức Deutsch-Anderson: η = 1 − exp(−A·w/Q). Dùng cho bụi mịn < 10 µm, hiệu suất ≥ 99%.</li>
+  <li>w (drift velocity): tro bay 0.05–0.15 m/s; xi măng 0.06–0.10; bụi thép 0.08–0.15 m/s.</li>
+  <li>SCA = A/Q: 30–100 s/m (càng cao η càng lớn). Vận tốc khí qua ESP 0.9–1.5 m/s.</li>
+  <li>Cần ≥ 2 trường điện nối tiếp để an toàn khi 1 trường hỏng. Điện áp 30–60 kV DC.</li>
+  </ol>`,
+  t5:`<h4>Hướng dẫn — Venturi scrubber</h4><ol>
+  <li>Dùng cho bụi dính, ẩm, kèm khí độc hoà tan (HCl, SO₂). Hiệu suất phụ thuộc mạnh vào ΔP.</li>
+  <li>v họng: 60–90 m/s (η trung bình); 90–150 m/s (η cao cho bụi siêu mịn).</li>
+  <li>L/G = 0.5–1.5 L/m³. ΔP = 3–10 kPa cho thông thường; lên đến 20 kPa cho bụi < 1 µm.</li>
+  <li>Tiêu thụ điện cao do ΔP lớn — cân nhắc so với bag filter cho bụi khô.</li>
+  </ol>`,
+  t6:`<h4>Hướng dẫn — Tháp hấp thụ đệm</h4><ol>
+  <li>Cin/Cout, Mw phải ứng với chất cần xử lý: SO₂ (M=64), H₂S (34), NH₃ (17), HCl (36.5).</li>
+  <li>u (vận tốc khí qua tháp) 1–2 m/s; nếu > flooding velocity sẽ ngập đệm.</li>
+  <li>HTU 0.3–1 m tuỳ loại đệm (Pall ring, Intalox, Raschig). NTU = ln(Cin/Cout) khi L>>G.</li>
+  <li>α = 1.2–1.5: lượng dung dịch dư để đảm bảo phản ứng hoàn toàn. Kiểm soát pH 9–11 với NaOH.</li>
+  <li>Lưu ý tạo kết tủa (Na₂SO₃) — bố trí bồn tuần hoàn + lọc cặn.</li>
+  </ol>`,
+  t7:`<h4>Hướng dẫn — Hấp phụ than hoạt tính</h4><ol>
+  <li>Dùng cho VOC Cin < 1000 ppm, không phản ứng, nhiệt độ < 50°C, RH < 70%.</li>
+  <li>Tải trọng q: dung môi hữu cơ 0.1–0.3 kg/kg; benzen 0.2; toluen 0.25.</li>
+  <li>v qua lớp 0.3–0.6 m/s; H lớp 0.5–1 m; ΔP 500–1500 Pa.</li>
+  <li>Cấu hình: <b>2 cột</b> (1 chạy + 1 tái sinh bằng hơi nước 150°C), chu kỳ 4–24 giờ.</li>
+  <li>Không dùng cho ketone/aldehyde nồng độ cao (nguy cơ cháy tự phát).</li>
+  </ol>`,
+  t8:`<h4>Hướng dẫn — Thiêu đốt RTO</h4><ol>
+  <li>Tc 760–870°C với thời gian lưu 0.75–1 s cho phá huỷ VOC ≥ 99%.</li>
+  <li>Hiệu suất thu hồi nhiệt của RTO 90–97% (đặc trưng 95%). RCO dùng xúc tác, Tc 300–500°C.</li>
+  <li>Khi VOC > 2–3 g/Nm³ → autothermal (không cần nhiên liệu phụ). < 1 g/Nm³ → tốn gas.</li>
+  <li>Cảnh báo: không dùng cho khí chứa Cl, S cao (tạo dioxin/SOx) — phải kèm scrubber sau.</li>
+  </ol>`,
+  t9:`<h4>Hướng dẫn — Biofilter</h4><ol>
+  <li>Dùng cho mùi (H₂S, NH₃, amin) và VOC phân huỷ sinh học được, Cin < 500 mg/m³.</li>
+  <li>EBRT = V/Q = 30–60 s. Vật liệu: vỏ cây, than bùn, xơ dừa, compost. H lớp 1–1.5 m.</li>
+  <li>Độ ẩm lớp 50–70%; pH 7–8; T 20–40°C. Cần tưới tự động.</li>
+  <li>Tải trọng khối EC 10–50 g/m³.h (thấp cho mùi, cao cho VOC phân huỷ nhanh như ethanol).</li>
+  <li>Ưu: vận hành rẻ. Nhược: diện tích lớn, khởi động chậm (2–4 tuần).</li>
+  </ol>`,
+  t10:`<h4>Hướng dẫn — Ống khói</h4><ol>
+  <li>v miệng 15–25 m/s để tránh xoáy ngược; < 10 m/s khói bị kéo xuống do gió.</li>
+  <li>Hs tối thiểu 15 m theo QCVN; nếu gần khu dân cư hoặc đỉnh núi phải cao hơn.</li>
+  <li>Công thức Holland tính ΔH cho nguồn nóng (Ts > Ta). Khí lạnh ΔH ≈ 3·D·v/u.</li>
+  <li>He = Hs + ΔH dùng cho mô hình phát tán (tab kế tiếp).</li>
+  </ol>`,
+  t11:`<h4>Hướng dẫn — Phát tán Gauss</h4><ol>
+  <li>M là phát thải của <b>1 chất</b> (g/s) = Cin×Qn×(1-η)×2.78e-7 với Cin mg/Nm³, Qn Nm³/h.</li>
+  <li>Hạng Pasquill: A rất bất ổn định (nắng gắt, gió yếu) → F rất ổn định (đêm, gió yếu). D là trung tính (thường dùng).</li>
+  <li>Công thức Briggs σy,σz dùng cho địa hình nông thôn. Địa hình đô thị có hệ số khác.</li>
+  <li>Nồng độ cực đại ở mặt đất xảy ra tại x khi σz ≈ He/√2.</li>
+  <li>So sánh kết quả với QCVN 05:2013/BTNMT (SO₂ 350 µg/m³/1h; NO₂ 200; bụi PM10 150).</li>
+  </ol>`,
+};
+Object.keys(guides).forEach(id=>{
+  const p=$(id);
+  if(p){const d=document.createElement('div');d.className='guide';d.innerHTML=guides[id];p.appendChild(d);}
+});
+calcAll();
+</script>
+</body>
+</html>
+
+
+

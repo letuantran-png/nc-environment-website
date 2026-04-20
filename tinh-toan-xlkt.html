@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính toán Hệ thống Xử lý Khí thải - NC Environment</title>
+    <meta name="description" content="Ứng dụng tính toán hệ thống xử lý khí thải trực tuyến - Công cụ miễn phí từ NC Environment.">
+    <link rel="icon" type="image/png" href="imagimages/logo_NC_square.png">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .app-wrapper {
+            margin-top: 120px;
+            background: var(--warm-white);
+        }
+        .app-intro {
+            padding: 40px 0 30px;
+            background: var(--white);
+            border-bottom: 1px solid var(--cream);
+        }
+        .app-intro .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .app-intro-text h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .app-intro-text p {
+            color: var(--warm-gray);
+            font-size: 15px;
+        }
+        .app-tools {
+            display: flex;
+            gap: 12px;
+        }
+        .app-tools a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .app-tools a.active-tool {
+            background: var(--copper);
+            color: var(--white);
+        }
+        .app-tools a:not(.active-tool) {
+            background: var(--cream);
+            color: var(--royal-blue);
+        }
+        .app-tools a:hover:not(.active-tool) {
+            background: var(--royal-blue);
+            color: var(--white);
+        }
+        .app-frame-container {
+            padding: 0;
+            background: var(--warm-white);
+        }
+        .app-frame-container iframe {
+            width: 100%;
+            min-height: calc(100vh - 240px);
+            border: none;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .app-wrapper { margin-top: 80px; }
+            .app-intro-text h1 { font-size: 22px; }
+            .app-tools { width: 100%; }
+            .app-tools a { flex: 1; text-align: center; font-size: 12px; padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="header-top"><div class="container"><div class="contact-info"><a href="tel:0975873866"><i class="fas fa-phone-alt"></i> 0975 873 866</a><a href="mailto:letuantran@gmail.com"><i class="fas fa-envelope"></i> letuantran@gmail.com</a><span><i class="fas fa-clock"></i> Thứ 2 - Thứ 7: 8:00 - 17:30</span></div><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fas fa-comment-dots"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div></div>
+        <div class="header-main"><div class="container">
+            <a href="index.html" class="logo"><img src="images/logo_NC_3.png" alt="NC Logo"><div class="logo-text"><div class="company-name">Tài nguyên & Môi trường NC</div><div class="company-sub">Environment Consulting</div></div></a>
+            <nav class="nav"><ul class="nav-list" id="navList">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="gioi-thieu.html">Giới Thiệu</a></li>
+                <li class="active"><a href="dich-vu.html">Dịch Vụ <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="dich-vu-dtm.html">Đánh giá tác động môi trường (ĐTM)</a></li>
+                        <li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li>
+                        <li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li>
+                        <li><a href="dich-vu-xlnt.html">Xử lý nước thải & khí thải</a></li>
+                        <li><a href="dich-vu-ctnh.html">Quản lý chất thải nguy hại</a></li>
+                        <li><a href="dich-vu-phapluat.html">Tư vấn pháp luật môi trường</a></li>
+                        <li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li>
+                    </ul>
+                </li>
+                <li><a href="tin-tuc.html">Tin Tức</a></li>
+                <li><a href="lien-he.html">Liên Hệ</a></li>
+            </ul><div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div></nav>
+            <div class="header-cta"><a href="tel:0975873866" class="btn btn-primary"><i class="fas fa-phone-alt" style="margin-right:6px"></i> Tư Vấn Ngay</a></div>
+        </div></div>
+    </header>
+
+    <!-- APP SECTION -->
+    <div class="app-wrapper">
+        <div class="app-intro">
+            <div class="container">
+                <div class="app-intro-text">
+                    <h1><i class="fas fa-calculator" style="color:var(--copper);margin-right:10px"></i>Công Cụ Tính Toán Kỹ Thuật</h1>
+                    <p>Ứng dụng tính toán thiết kế hệ thống xử lý môi trường - Miễn phí cho doanh nghiệp</p>
+                </div>
+                <div class="app-tools">
+                    <a href="tinh-toan-xlnt.html"><i class="fas fa-water" style="margin-right:6px"></i> Xử lý Nước thải</a>
+                    <a href="tinh-toan-xlkt.html" class="active-tool"><i class="fas fa-wind" style="margin-right:6px"></i> Xử lý Khí thải</a>
+                </div>
+            </div>
+        </div>
+        <div class="app-frame-container">
+            <iframe src="app-xlkt.html" title="Ứng dụng tính toán HTXLKT" id="appFrame"></iframe>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer"><div class="container"><div class="footer-grid">
+        <div class="footer-brand"><a href="index.html" class="logo"><img src="images/logo_NC_3.png" alt="NC Logo" style="filter:brightness(10)"><div class="logo-text"><div class="company-name">Tài nguyên & Môi trường NC</div><div class="company-sub">Environment Consulting</div></div></a><p>Đồng hành cùng doanh nghiệp vì một môi trường bền vững.</p><div class="footer-social"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fas fa-comment-dots"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div>
+        <div><h4>Dịch Vụ</h4><ul class="footer-links"><li><a href="dich-vu-dtm.html">Đánh giá tác động MT</a></li><li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li><li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li><li><a href="dich-vu-xlnt.html">Xử lý nước thải</a></li><li><a href="dich-vu-ctnh.html">Quản lý CTNH</a></li><li><a href="dich-vu-phapluat.html">Tư vấn pháp luật MT</a></li><li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li></ul></div>
+        <div><h4>Công Cụ</h4><ul class="footer-links"><li><a href="tinh-toan-xlnt.html">Tính toán HT XLNT</a></li><li><a href="tinh-toan-xlkt.html">Tính toán HT XLKT</a></li></ul><h4 style="margin-top:20px">Liên Kết</h4><ul class="footer-links"><li><a href="index.html">Trang Chủ</a></li><li><a href="gioi-thieu.html">Giới Thiệu</a></li><li><a href="tin-tuc.html">Tin Tức</a></li><li><a href="lien-he.html">Liên Hệ</a></li></ul></div>
+        <div><h4>Liên Hệ</h4><div class="footer-contact-item"><i class="fas fa-phone-alt"></i><span><a href="tel:0975873866" style="color:inherit">0975 873 866</a></span></div><div class="footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:letuantran@gmail.com" style="color:inherit">letuantran@gmail.com</a></span></div><div class="footer-contact-item"><i class="fas fa-clock"></i><span>T2 - T7: 8:00 - 17:30</span></div></div>
+    </div><div class="footer-bottom"><p>Copyright 2026 &copy; <strong>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC.</strong> All rights reserved.</p></div></div></footer>
+
+    <div class="floating-contact" id="floatingContact"><div class="floating-menu"><div class="floating-menu-item"><span>Gọi tư vấn</span><a href="tel:0975873866" class="float-phone"><i class="fas fa-phone-alt"></i></a></div><div class="floating-menu-item"><span>Chat Zalo</span><a href="https://zalo.me/0975873866" target="_blank" class="float-zalo"><i class="fas fa-comment-dots"></i></a></div><div class="floating-menu-item"><span>Gửi Email</span><a href="mailto:letuantran@gmail.com" class="float-email"><i class="fas fa-envelope"></i></a></div></div><button class="floating-btn"><div class="pulse"></div><i class="fas fa-headset"></i></button></div>
+    <button class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+
+    <script src="main.js"></script>
+    <script>
+        const iframe = document.getElementById('appFrame');
+        iframe.addEventListener('load', function() {
+            try {
+                const h = iframe.contentWindow.document.body.scrollHeight;
+                iframe.style.height = Math.max(h + 40, 800) + 'px';
+            } catch(e) {
+                iframe.style.height = '2000px';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

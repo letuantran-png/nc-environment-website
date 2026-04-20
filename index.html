@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC Environment - Công ty TNHH Tư vấn Tài nguyên và Môi trường NC</title>
+    <meta name="description" content="Công ty TNHH Tư vấn Tài nguyên và Môi trường NC - Đồng hành cùng doanh nghiệp vì một môi trường bền vững. Dịch vụ tư vấn ĐTM, Giấy phép môi trường, Quan trắc môi trường, Kiểm kê khí nhà kính.">
+    <link rel="icon" type="image/png" href="imagimages/logo_NC_square.png">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Inline fallback styles: restores header/nav behavior if external CSS fails to load -->
+    <style>
+        html,body{height:100%;}
+        body{font-family: 'Lora', 'Calibri', Arial, sans-serif; color:#5A4E3E; background:#FAF7F2; line-height:1.6}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .header{position:fixed;top:0;left:0;right:0;background:#fff;z-index:9999;border-bottom:1px solid rgba(0,0,0,0.06)}
+        .header-top{background:#1E3A5F;color:#fff;padding:6px 0;font-size:14px}
+        .header-top .container{display:flex;justify-content:space-between;align-items:center}
+        .header-main{height:80px;display:flex;align-items:center}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo img{height:55px}
+        nav{display:flex;align-items:center}
+        .nav-list{display:flex;list-style:none;margin:0;padding:0;margin-left:18px;gap:0}
+        .nav-list > li {position:relative}
+        .nav-list > li > a{display:block;padding:18px 14px;color:#1E3A5F;font-weight:600}
+        .nav-list .dropdown-menu {display:none;position:absolute}
+        .nav-list > li:hover .dropdown-menu{display:block}
+        /* ensure header sits above hero content */
+        .hero{margin-top:120px;padding:60px 0;background:linear-gradient(135deg,#1E3A5F,#2D4A6F);color:#fff}
+        h1{font-family:'Lora',serif;font-size:42px;margin:10px 0}
+        /* small screens: stack nav behind a toggle */
+        @media (max-width: 768px){
+            .nav-list{position:fixed;top:96px;left:0;right:0;background:#fff;flex-direction:column;display:none;padding-bottom:20px}
+            .nav-list.open{display:flex}
+            .menu-toggle{display:flex}
+            .header-main .container{justify-content:space-between}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== HEADER ======== -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="contact-info">
+                    <a href="tel:0975873866"><i class="fas fa-phone-alt"></i> 0975 873 866</a>
+                    <a href="mailto:letuantran@gmail.com"><i class="fas fa-envelope"></i> letuantran@gmail.com</a>
+                    <span><i class="fas fa-clock"></i> Thứ 2 - Thứ 7: 8:00 - 17:30</span>
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Zalo"><i class="fas fa-comment-dots"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <img src="images/logo_NC_3.png" alt="NC Environment Logo">
+                    <div class="logo-text">
+                        <div class="company-name">Tài nguyên & Môi trường NC</div>
+                        <div class="company-sub">Environment Consulting</div>
+                    </div>
+                </a>
+                <nav class="nav">
+                    <ul class="nav-list" id="navList">
+                        <li class="active"><a href="index.html">Trang Chủ</a></li>
+                        <li><a href="gioi-thieu.html">Giới Thiệu</a></li>
+                        <li>
+                            <a href="dich-vu.html">Dịch Vụ <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="dich-vu-dtm.html">Đánh giá tác động môi trường (ĐTM)</a></li>
+                                <li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li>
+                                <li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li>
+                                <li><a href="dich-vu-xlnt.html">Xử lý nước thải & khí thải</a></li>
+                                <li><a href="dich-vu-ctnh.html">Quản lý chất thải nguy hại</a></li>
+                                <li><a href="dich-vu-phapluat.html">Tư vấn pháp luật môi trường</a></li>
+                                <li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Công Cụ <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="tinh-toan-xlnt.html">Tính toán HT Xử lý Nước thải</a></li>
+                                <li><a href="tinh-toan-xlkt.html">Tính toán HT Xử lý Khí thải</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="tin-tuc.html">Tin Tức</a></li>
+                        <li><a href="lien-he.html">Liên Hệ</a></li>
+                    </ul>
+                    <div class="menu-toggle" id="menuToggle">
+                        <span></span><span></span><span></span>
+                    </div>
+                </nav>
+                <div class="header-cta">
+                    <a href="tel:0975873866" class="btn btn-primary"><i class="fas fa-phone-alt" style="margin-right:6px"></i> Tư Vấn Ngay</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== HERO ======== -->
+    <section class="hero" id="hero">
+        <div class="hero-pattern"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-leaf" style="margin-right:6px"></i> Since 2026
+                </div>
+                <h1>Đồng hành cùng<br>Doanh nghiệp vì<br><span>Môi trường Bền vững</span></h1>
+                <p>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC cung cấp giải pháp tư vấn môi trường chuyên nghiệp, giúp doanh nghiệp tuân thủ pháp luật và phát triển bền vững.</p>
+                <div class="hero-buttons">
+                    <a href="lien-he.html" class="btn btn-primary">Nhận Tư Vấn Miễn Phí</a>
+                    <a href="dich-vu.html" class="btn btn-outline">Xem Dịch Vụ</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>100+</h3>
+                        <p>Doanh nghiệp tin tưởng</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>200+</h3>
+                        <p>Hồ sơ hoàn thành</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>100%</h3>
+                        <p>Cam kết chất lượng</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div style="position:relative;width:100%">
+                    <img src="images/hero-env.svg" alt="NC Environment - Tư vấn môi trường" style="width:100%;max-width:560px;height:auto;display:block;margin:0 auto 20px;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.25))">
+                    <div class="hero-icon-grid">
+                        <div class="hero-icon-card">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Báo cáo ĐTM</span>
+                        </div>
+                        <div class="hero-icon-card">
+                            <i class="fas fa-certificate"></i>
+                            <span>Giấy phép MT</span>
+                        </div>
+                        <div class="hero-icon-card" onclick="location.href='tinh-toan-xlnt.html'" style="cursor:pointer">
+                            <i class="fas fa-calculator"></i>
+                            <span>Tính toán XLNT</span>
+                        </div>
+                        <div class="hero-icon-card" onclick="location.href='tinh-toan-xlkt.html'" style="cursor:pointer">
+                            <i class="fas fa-wind"></i>
+                            <span>Tính toán XLKT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== ABOUT ======== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid fade-in">
+                <div class="about-image">
+                    <div class="about-image-main" style="padding:0;overflow:hidden">
+                        <img src="images/about-team.svg" alt="Đội ngũ NC Environment" style="width:100%;height:100%;object-fit:cover;display:block">
+                    </div>
+                    <div class="about-float-card">
+                        <h3>2026</h3>
+                        <p>Năm thành lập</p>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="section-title" style="text-align:left;margin-bottom:20px">
+                        <h2 style="display:block">Về Chúng Tôi</h2>
+                    </div>
+                    <p>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC được thành lập với sứ mệnh cung cấp các giải pháp tư vấn môi trường <span class="highlight">chuyên nghiệp</span>, giúp doanh nghiệp tuân thủ pháp luật và phát triển bền vững.</p>
+                    <p>Với đội ngũ chuyên gia giàu kinh nghiệm trong lĩnh vực môi trường, chúng tôi cam kết mang đến dịch vụ chất lượng cao, đáp ứng mọi nhu cầu của khách hàng.</p>
+                    <div class="about-values">
+                        <div class="about-value">
+                            <i class="fas fa-medal"></i>
+                            <div><h4>Chuyên nghiệp</h4><p>Đội ngũ giàu kinh nghiệm, quy trình chuẩn mực</p></div>
+                        </div>
+                        <div class="about-value">
+                            <i class="fas fa-heart"></i>
+                            <div><h4>Tận tâm</h4><p>Luôn đặt lợi ích khách hàng lên hàng đầu</p></div>
+                        </div>
+                        <div class="about-value">
+                            <i class="fas fa-leaf"></i>
+                            <div><h4>Bền vững</h4><p>Hướng đến phát triển bền vững cho cộng đồng</p></div>
+                        </div>
+                        <div class="about-value">
+                            <i class="fas fa-shield-alt"></i>
+                            <div><h4>Uy tín</h4><p>Cam kết chất lượng dịch vụ vượt mong đợi</p></div>
+                        </div>
+                    </div>
+                    <div style="margin-top:25px">
+                        <a href="gioi-thieu.html" class="btn btn-outline-dark">Tìm Hiểu Thêm <i class="fas fa-arrow-right" style="margin-left:6px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== SERVICES ======== -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Dịch Vụ Của Chúng Tôi</h2>
+                <p>Giải pháp tư vấn môi trường toàn diện cho doanh nghiệp</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">ĐTM</div>
+                    <h3>Đánh giá tác động môi trường</h3>
+                    <p>Lập báo cáo ĐTM cho các dự án đầu tư theo quy định pháp luật hiện hành</p>
+                    <a href="dich-vu-dtm.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">GP</div>
+                    <h3>Giấy phép môi trường</h3>
+                    <p>Tư vấn và hỗ trợ xin cấp giấy phép môi trường cho doanh nghiệp</p>
+                    <a href="dich-vu-gpmt.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">QT</div>
+                    <h3>Quan trắc môi trường</h3>
+                    <p>Thực hiện quan trắc định kỳ nước thải, khí thải, môi trường lao động</p>
+                    <a href="dich-vu-quantrac.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">XL</div>
+                    <h3>Xử lý nước thải & khí thải</h3>
+                    <p>Tư vấn thiết kế, vận hành hệ thống xử lý nước thải và khí thải</p>
+                    <a href="dich-vu-xlnt.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">CT</div>
+                    <h3>Quản lý chất thải nguy hại</h3>
+                    <p>Lập hồ sơ, sổ đăng ký chủ nguồn thải chất thải nguy hại</p>
+                    <a href="dich-vu-ctnh.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">TV</div>
+                    <h3>Tư vấn pháp luật môi trường</h3>
+                    <p>Hỗ trợ doanh nghiệp tuân thủ các quy định về bảo vệ môi trường</p>
+                    <a href="dich-vu-phapluat.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon" style="font-size:12px">KNK</div>
+                    <h3>Kiểm kê khí nhà kính</h3>
+                    <p>Kiểm kê, báo cáo phát thải khí nhà kính theo quy định và tiêu chuẩn quốc tế</p>
+                    <a href="dich-vu-knk.html" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== STATS ======== -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <i class="fas fa-handshake"></i>
+                    <h3><span class="counter" data-target="100">0</span>+</h3>
+                    <p>Đối tác tin tưởng</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <i class="fas fa-folder-open"></i>
+                    <h3><span class="counter" data-target="200">0</span>+</h3>
+                    <p>Hồ sơ hoàn thành</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <i class="fas fa-cogs"></i>
+                    <h3><span class="counter" data-target="50">0</span>+</h3>
+                    <p>Dự án triển khai</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <i class="fas fa-comments"></i>
+                    <h3><span class="counter" data-target="500">0</span>+</h3>
+                    <p>Lượt tư vấn miễn phí</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== PROCESS ======== -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Quy Trình Làm Việc</h2>
+                <p>4 bước đơn giản, hiệu quả</p>
+            </div>
+            <div class="fade-in" style="text-align:center;margin-bottom:40px">
+                <img src="images/process-steps.svg" alt="Quy trình làm việc NC Environment" style="max-width:900px;width:100%;height:auto;display:inline-block">
+            </div>
+            <div class="process-steps">
+                <div class="process-step fade-in">
+                    <div class="step-number">01</div>
+                    <h3>Tiếp nhận yêu cầu</h3>
+                    <p>Lắng nghe nhu cầu, khảo sát thực tế tại doanh nghiệp</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">02</div>
+                    <h3>Lập kế hoạch & Báo giá</h3>
+                    <p>Đề xuất phương án tối ưu, báo giá chi tiết minh bạch</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">03</div>
+                    <h3>Triển khai thực hiện</h3>
+                    <p>Lập hồ sơ, thu thập dữ liệu, soạn báo cáo chuyên môn</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">04</div>
+                    <h3>Bàn giao & Hỗ trợ</h3>
+                    <p>Nộp hồ sơ, theo dõi kết quả, hỗ trợ sau bàn giao</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== WHY US ======== -->
+    <section class="why-us" id="why-us">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Tại Sao Chọn Chúng Tôi</h2>
+                <p>Cam kết mang đến giá trị tốt nhất cho doanh nghiệp</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-features fade-in">
+                    <div class="why-feature">
+                        <div class="why-feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div><h3>Chuyên môn sâu</h3><p>Đội ngũ có chuyên môn vững vàng trong lĩnh vực tài nguyên và môi trường</p></div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon"><i class="fas fa-balance-scale"></i></div>
+                        <div><h3>Pháp lý cập nhật</h3><p>Luôn cập nhật các quy định pháp luật mới nhất về môi trường</p></div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon"><i class="fas fa-clock"></i></div>
+                        <div><h3>Tiến độ cam kết</h3><p>Đảm bảo hoàn thành hồ sơ đúng thời hạn, không để khách hàng chờ đợi</p></div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon"><i class="fas fa-tags"></i></div>
+                        <div><h3>Chi phí hợp lý</h3><p>Mức phí cạnh tranh, phù hợp với quy mô doanh nghiệp vừa và nhỏ</p></div>
+                    </div>
+                </div>
+                <div class="why-quote fade-in">
+                    <blockquote>Chúng tôi không chỉ tư vấn — chúng tôi đồng hành cùng doanh nghiệp trên hành trình phát triển bền vững.</blockquote>
+                    <div class="author">
+                        <div class="author-avatar">T</div>
+                        <div class="author-info">
+                            <h4>Trần Lê Tuấn</h4>
+                            <p>Giám đốc điều hành</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== NEWS ======== -->
+    <section class="news" id="news">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Tin Tức & Kiến Thức</h2>
+                <p>Cập nhật thông tin mới nhất về lĩnh vực môi trường</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-card fade-in">
+                    <div class="news-thumb" style="padding:0;overflow:hidden;position:relative">
+                        <img src="images/news-gpmt.svg" alt="Hướng dẫn GPMT 2026" style="width:100%;height:100%;object-fit:cover;display:block">
+                        <div class="news-date">15/03/2026</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Pháp luật</span>
+                        <h3><a href="bai-viet-1.html">Hướng dẫn mới về thủ tục xin cấp giấy phép môi trường năm 2026</a></h3>
+                        <p>Tổng hợp các thay đổi quan trọng trong quy trình cấp giấy phép môi trường theo Nghị định mới nhất...</p>
+                    </div>
+                </div>
+                <div class="news-card fade-in">
+                    <div class="news-thumb" style="padding:0;overflow:hidden;position:relative">
+                        <img src="images/news-dtm.svg" alt="Quy trình lập báo cáo ĐTM" style="width:100%;height:100%;object-fit:cover;display:block">
+                        <div class="news-date">10/03/2026</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Kiến thức</span>
+                        <h3><a href="bai-viet-2.html">Quy trình lập báo cáo đánh giá tác động môi trường cho doanh nghiệp</a></h3>
+                        <p>Hướng dẫn chi tiết các bước lập báo cáo ĐTM từ khảo sát đến nộp hồ sơ thẩm định...</p>
+                    </div>
+                </div>
+                <div class="news-card fade-in">
+                    <div class="news-thumb" style="padding:0;overflow:hidden;position:relative">
+                        <img src="images/news-doituong.svg" alt="Đối tượng phải có GPMT" style="width:100%;height:100%;object-fit:cover;display:block">
+                        <div class="news-date">05/03/2026</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Tư vấn</span>
+                        <h3><a href="bai-viet-3.html">Doanh nghiệp nào bắt buộc phải có giấy phép môi trường?</a></h3>
+                        <p>Giải đáp thắc mắc về đối tượng phải lập giấy phép môi trường theo Luật BVMT 2020...</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:40px" class="fade-in">
+                <a href="tin-tuc.html" class="btn btn-outline-dark">Xem Tất Cả Tin Tức <i class="fas fa-arrow-right" style="margin-left:6px"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== CONTACT ======== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info fade-in">
+                    <h2>Liên Hệ Với Chúng Tôi</h2>
+                    <p>Sẵn sàng đồng hành cùng doanh nghiệp. Hãy liên hệ để được tư vấn miễn phí!</p>
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div><h4>Công ty</h4><p>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC</p></div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone-alt"></i>
+                            <div><h4>Điện thoại</h4><a href="tel:0975873866">0975 873 866</a></div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div><h4>Email</h4><a href="mailto:letuantran@gmail.com">letuantran@gmail.com</a></div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-clock"></i>
+                            <div><h4>Giờ làm việc</h4><p>Thứ 2 - Thứ 7: 8:00 - 17:30</p></div>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-user-tie"></i>
+                            <div><h4>Giám đốc điều hành</h4><p>Trần Lê Tuấn</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper fade-in">
+                    <h3>Nhận Tư Vấn Miễn Phí</h3>
+                    <form id="contactForm" data-source="Trang chủ">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Họ và tên *</label>
+                                <input type="text" name="hoTen" required placeholder="Nhập họ và tên">
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại *</label>
+                                <input type="tel" name="soDienThoai" required placeholder="Nhập số điện thoại">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="Nhập địa chỉ email">
+                        </div>
+                        <div class="form-group">
+                            <label>Dịch vụ quan tâm</label>
+                            <select name="dichVu">
+                                <option value="">-- Chọn dịch vụ --</option>
+                                <option>Đánh giá tác động môi trường (ĐTM)</option>
+                                <option>Giấy phép môi trường</option>
+                                <option>Quan trắc môi trường</option>
+                                <option>Xử lý nước thải & khí thải</option>
+                                <option>Quản lý chất thải nguy hại</option>
+                                <option>Tư vấn pháp luật môi trường</option>
+                                <option>Kiểm kê khí nhà kính</option>
+                                <option>Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nội dung</label>
+                            <textarea name="noiDung" placeholder="Mô tả nhu cầu tư vấn của bạn..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">
+                            <i class="fas fa-paper-plane" style="margin-right:8px"></i> Gửi Yêu Cầu Tư Vấn
+                        </button>
+                        <div class="form-status" style="margin-top:14px;font-size:14px;text-align:center"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo_NC_3.png" alt="NC Environment Logo" style="filter: brightness(10);">
+                        <div class="logo-text">
+                            <div class="company-name">Tài nguyên & Môi trường NC</div>
+                            <div class="company-sub">Environment Consulting</div>
+                        </div>
+                    </a>
+                    <p>Đồng hành cùng doanh nghiệp vì một môi trường bền vững. Cung cấp giải pháp tư vấn tài nguyên và môi trường chất lượng cao.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Dịch Vụ</h4>
+                    <ul class="footer-links">
+                        <li><a href="dich-vu-dtm.html">Đánh giá tác động MT</a></li>
+                        <li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li>
+                        <li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li>
+                        <li><a href="dich-vu-xlnt.html">Xử lý nước thải</a></li>
+                        <li><a href="dich-vu-ctnh.html">Quản lý CTNH</a></li>
+                        <li><a href="dich-vu-phapluat.html">Tư vấn pháp luật MT</a></li>
+                        <li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Liên Kết</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Trang Chủ</a></li>
+                        <li><a href="gioi-thieu.html">Giới Thiệu</a></li>
+                        <li><a href="dich-vu.html">Dịch Vụ</a></li>
+                        <li><a href="tin-tuc.html">Tin Tức</a></li>
+                        <li><a href="lien-he.html">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Liên Hệ</h4>
+                    <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><span><a href="tel:0975873866" style="color:inherit">0975 873 866</a></span></div>
+                    <div class="footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:letuantran@gmail.com" style="color:inherit">letuantran@gmail.com</a></span></div>
+                    <div class="footer-contact-item"><i class="fas fa-clock"></i><span>T2 - T7: 8:00 - 17:30</span></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright 2026 &copy; <strong>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC.</strong> All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======== FLOATING CONTACT ======== -->
+    <div class="floating-contact" id="floatingContact">
+        <div class="floating-menu">
+            <div class="floating-menu-item"><span>Gọi tư vấn</span><a href="tel:0975873866" class="float-phone"><i class="fas fa-phone-alt"></i></a></div>
+            <div class="floating-menu-item"><span>Chat Zalo</span><a href="https://zalo.me/0975873866" target="_blank" class="float-zalo"><i class="fas fa-comment-dots"></i></a></div>
+            <div class="floating-menu-item"><span>Gửi Email</span><a href="mailto:letuantran@gmail.com" class="float-email"><i class="fas fa-envelope"></i></a></div>
+        </div>
+        <button class="floating-btn"><div class="pulse"></div><i class="fas fa-headset"></i></button>
+    </div>
+    <button class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
+
+

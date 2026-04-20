@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn mới về thủ tục xin cấp giấy phép môi trường năm 2026 - NC Environment</title>
+    <meta name="description" content="Tổng hợp các thay đổi quan trọng trong quy trình cấp giấy phép môi trường theo Nghị định mới nhất năm 2026, những điểm doanh nghiệp cần lưu ý khi nộp hồ sơ.">
+    <link rel="icon" type="image/png" href="imagimages/logo_NC_square.png">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --royal-blue: #1E3A5F;
+            --copper: #C47D5A;
+            --olive-green: #4A6741;
+            --warm-white: #FAF7F2;
+            --cream: #F0EBE3;
+            --bronze: #8B7355;
+        }
+
+        /* Article Page Styles */
+        .article-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 40px;
+            padding: 60px 0;
+        }
+        .article-main { min-width: 0; }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+        .article-meta .meta-item { display: flex; align-items: center; gap: 6px; }
+        .article-meta .meta-item i { color: var(--copper); }
+        .article-category-tag {
+            background: var(--royal-blue);
+            color: #fff;
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .article-hero-svg {
+            width: 100%;
+            max-height: 340px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, var(--royal-blue), #2D4A6F);
+        }
+        .article-hero-svg svg { display: block; width: 100%; height: auto; }
+
+        .article-main h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--royal-blue);
+            line-height: 1.35;
+            margin-bottom: 16px;
+        }
+
+        .article-body { line-height: 1.85; color: #333; font-size: 1.05rem; }
+        .article-body h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--royal-blue);
+            margin: 36px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--cream);
+        }
+        .article-body h3 {
+            font-size: 1.2rem;
+            color: var(--olive-green);
+            margin: 28px 0 12px;
+        }
+        .article-body p { margin-bottom: 16px; }
+        .article-body ul, .article-body ol { margin: 12px 0 20px 24px; }
+        .article-body li { margin-bottom: 8px; }
+
+        .article-highlight {
+            background: var(--cream);
+            border-left: 4px solid var(--copper);
+            padding: 20px 24px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+        .article-highlight p { margin-bottom: 0; }
+
+        .article-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        .article-table th {
+            background: var(--royal-blue);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .article-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--cream);
+        }
+        .article-table tr:nth-child(even) { background: var(--warm-white); }
+
+        /* Related Articles */
+        .related-articles {
+            margin-top: 48px;
+            padding-top: 36px;
+            border-top: 2px solid var(--cream);
+        }
+        .related-articles h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--royal-blue);
+            margin-bottom: 24px;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .related-card {
+            background: #fff;
+            border: 1px solid var(--cream);
+            border-radius: 10px;
+            padding: 20px;
+            transition: box-shadow .3s, transform .3s;
+        }
+        .related-card:hover { box-shadow: 0 8px 24px rgba(30,58,95,.1); transform: translateY(-3px); }
+        .related-card .related-tag {
+            display: inline-block;
+            background: var(--cream);
+            color: var(--bronze);
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .related-card h4 { font-size: 1rem; margin-bottom: 8px; }
+        .related-card h4 a { color: var(--royal-blue); text-decoration: none; }
+        .related-card h4 a:hover { color: var(--copper); }
+        .related-card .related-date { font-size: 0.85rem; color: #999; }
+
+        /* Sidebar */
+        .article-sidebar .news-sidebar-block {
+            background: #fff;
+            border: 1px solid var(--cream);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .article-sidebar .news-sidebar-block h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--royal-blue);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--copper);
+        }
+        .article-sidebar .footer-links { list-style: none; padding: 0; margin: 0; }
+        .article-sidebar .footer-links li { margin-bottom: 10px; }
+        .article-sidebar .footer-links li a {
+            color: #444;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color .2s;
+        }
+        .article-sidebar .footer-links li a:hover { color: var(--copper); }
+
+        .sidebar-cta-box {
+            background: linear-gradient(135deg, var(--royal-blue), #2D4A6F);
+            color: #fff;
+            border-radius: 12px;
+            padding: 28px 24px;
+            text-align: center;
+        }
+        .sidebar-cta-box h3 { color: #fff; margin-bottom: 10px; font-size: 1.2rem; }
+        .sidebar-cta-box p { color: rgba(255,255,255,.85); margin-bottom: 18px; font-size: 0.95rem; }
+        .sidebar-cta-box .btn {
+            display: inline-block;
+            background: var(--copper);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background .3s;
+        }
+        .sidebar-cta-box .btn:hover { background: var(--bronze); }
+        .sidebar-cta-box .cta-phone {
+            display: block;
+            margin-top: 12px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 960px) {
+            .article-layout { grid-template-columns: 1fr; }
+            .article-main h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-top"><div class="container"><div class="contact-info"><a href="tel:0975873866"><i class="fas fa-phone-alt"></i> 0975 873 866</a><a href="mailto:letuantran@gmail.com"><i class="fas fa-envelope"></i> letuantran@gmail.com</a><span><i class="fas fa-clock"></i> Thứ 2 - Thứ 7: 8:00 - 17:30</span></div><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fas fa-comment-dots"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div></div>
+        <div class="header-main"><div class="container">
+            <a href="index.html" class="logo"><img src="images/logo_NC_3.png" alt="NC Logo"><div class="logo-text"><div class="company-name">Tài nguyên & Môi trường NC</div><div class="company-sub">Environment Consulting</div></div></a>
+            <nav class="nav"><ul class="nav-list" id="navList"><li><a href="index.html">Trang Chủ</a></li><li><a href="gioi-thieu.html">Giới Thiệu</a></li><li><a href="dich-vu.html">Dịch Vụ <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a><ul class="dropdown-menu"><li><a href="dich-vu-dtm.html">Đánh giá tác động môi trường (ĐTM)</a></li><li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li><li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li><li><a href="dich-vu-xlnt.html">Xử lý nước thải & khí thải</a></li><li><a href="dich-vu-ctnh.html">Quản lý chất thải nguy hại</a></li><li><a href="dich-vu-phapluat.html">Tư vấn pháp luật môi trường</a></li><li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li></ul></li><li class="active"><a href="tin-tuc.html">Tin Tức</a></li><li><a href="lien-he.html">Liên Hệ</a></li></ul><div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div></nav>
+            <div class="header-cta"><a href="tel:0975873866" class="btn btn-primary"><i class="fas fa-phone-alt" style="margin-right:6px"></i> Tư Vấn Ngay</a></div>
+        </div></div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Tin Tức & Kiến Thức</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Trang Chủ</a><span>/</span>
+                <a href="tin-tuc.html">Tin Tức</a><span>/</span>
+                <span>Hướng dẫn mới về thủ tục xin cấp giấy phép môi trường năm 2026</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-content">
+        <div class="container">
+            <div class="article-layout">
+                <!-- MAIN CONTENT -->
+                <div class="article-main fade-in">
+
+                    <!-- Article Meta -->
+                    <div class="article-meta">
+                        <div class="meta-item"><i class="far fa-calendar-alt"></i> 15/03/2026</div>
+                        <span class="article-category-tag">Pháp luật</span>
+                        <div class="meta-item"><i class="far fa-clock"></i> 8 phút đọc</div>
+                    </div>
+
+                    <h1>Hướng dẫn mới về thủ tục xin cấp giấy phép môi trường năm 2026</h1>
+
+                    <!-- SVG Hero Illustration -->
+                    <div class="article-hero-svg">
+                        <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#1E3A5F;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#2D4A6F;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="docGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#F0EBE3;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="stampGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#C47D5A;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8B7355;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4A6741;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#6B8F60;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Background -->
+                            <rect width="800" height="340" fill="url(#bgGrad)" />
+                            <!-- Decorative circles -->
+                            <circle cx="680" cy="60" r="120" fill="rgba(255,255,255,0.03)" />
+                            <circle cx="100" cy="300" r="80" fill="rgba(255,255,255,0.03)" />
+                            <circle cx="400" cy="170" r="200" fill="rgba(255,255,255,0.02)" />
+                            <!-- Document main body -->
+                            <rect x="280" y="40" width="200" height="260" rx="8" fill="url(#docGrad)" />
+                            <!-- Document fold corner -->
+                            <path d="M440 40 L480 40 L480 80 Z" fill="#D4CFC7" opacity="0.5"/>
+                            <path d="M440 40 L440 80 L480 80" fill="none" stroke="#C4BFB7" stroke-width="1"/>
+                            <!-- Document lines -->
+                            <rect x="310" y="80" width="140" height="6" rx="3" fill="#1E3A5F" opacity="0.15" />
+                            <rect x="310" y="100" width="130" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="114" width="140" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="128" width="110" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="148" width="140" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="162" width="125" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="176" width="140" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <rect x="310" y="190" width="100" height="4" rx="2" fill="#1E3A5F" opacity="0.1" />
+                            <!-- Stamp / seal -->
+                            <circle cx="410" cy="240" r="32" fill="none" stroke="url(#stampGrad)" stroke-width="3" opacity="0.85" />
+                            <circle cx="410" cy="240" r="26" fill="none" stroke="url(#stampGrad)" stroke-width="1" opacity="0.6" />
+                            <text x="410" y="237" text-anchor="middle" fill="#C47D5A" font-size="8" font-weight="bold" opacity="0.85">GPMT</text>
+                            <text x="410" y="249" text-anchor="middle" fill="#C47D5A" font-size="6" opacity="0.7">2026</text>
+                            <!-- Checkmark badge -->
+                            <circle cx="320" cy="240" r="16" fill="url(#leafGrad)" />
+                            <path d="M312 240 L318 246 L330 234" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <!-- Second document (behind) -->
+                            <rect x="250" y="55" width="200" height="260" rx="8" fill="#fff" opacity="0.15" />
+                            <!-- Leaf decoration left -->
+                            <g transform="translate(120,130) scale(1.2)" opacity="0.7">
+                                <path d="M0 50 Q20 20 50 0 Q30 30 35 60 Q15 40 0 50 Z" fill="url(#leafGrad)" />
+                                <line x1="50" y1="0" x2="10" y2="45" stroke="#3a5735" stroke-width="1" opacity="0.5" />
+                            </g>
+                            <g transform="translate(140,190) scale(0.8) rotate(30)" opacity="0.5">
+                                <path d="M0 50 Q20 20 50 0 Q30 30 35 60 Q15 40 0 50 Z" fill="url(#leafGrad)" />
+                            </g>
+                            <!-- Leaf decoration right -->
+                            <g transform="translate(570,110) scale(1) rotate(-15)" opacity="0.6">
+                                <path d="M0 50 Q20 20 50 0 Q30 30 35 60 Q15 40 0 50 Z" fill="url(#leafGrad)" />
+                                <line x1="50" y1="0" x2="10" y2="45" stroke="#3a5735" stroke-width="1" opacity="0.5" />
+                            </g>
+                            <g transform="translate(600,170) scale(0.7) rotate(20)" opacity="0.4">
+                                <path d="M0 50 Q20 20 50 0 Q30 30 35 60 Q15 40 0 50 Z" fill="url(#leafGrad)" />
+                            </g>
+                            <!-- Pen icon -->
+                            <g transform="translate(530,200) rotate(-30)" opacity="0.6">
+                                <rect x="0" y="0" width="8" height="60" rx="2" fill="#C47D5A" />
+                                <polygon points="0,60 4,72 8,60" fill="#8B7355" />
+                                <rect x="0" y="0" width="8" height="12" rx="2" fill="#8B7355" />
+                            </g>
+                            <!-- Title text -->
+                            <text x="400" y="328" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="13" font-family="Arial, sans-serif" letter-spacing="2">GIAY PHEP MOI TRUONG 2026</text>
+                        </svg>
+                    </div>
+
+                    <!-- Article Body -->
+                    <div class="article-body">
+                        <p>Giấy phép môi trường (GPMT) là một trong những yêu cầu pháp lý quan trọng nhất đối với các doanh nghiệp hoạt động sản xuất, kinh doanh tại Việt Nam. Năm 2026, Chính phủ đã ban hành một số quy định mới nhằm cải cách và hoàn thiện thủ tục cấp GPMT, tạo điều kiện thuận lợi hơn cho doanh nghiệp trong quá trình tuân thủ pháp luật về bảo vệ môi trường. Bài viết dưới đây sẽ phân tích chi tiết những thay đổi quan trọng và hướng dẫn doanh nghiệp thực hiện đúng quy trình mới.</p>
+
+                        <h2>1. Tổng quan về thay đổi thủ tục cấp GPMT theo quy định mới</h2>
+
+                        <p>Kể từ khi Luật Bảo vệ Môi trường 2020 có hiệu lực (ngày 01/01/2022), giấy phép môi trường đã trở thành công cụ pháp lý hợp nhất, thay thế cho nhiều loại giấy phép riêng lẻ trước đây như: xác nhận hoàn thành công trình bảo vệ môi trường, giấy phép xả nước thải vào nguồn nước, giấy phép xử lý chất thải nguy hại, và sổ đăng ký chủ nguồn thải chất thải nguy hại.</p>
+
+                        <p>Nghị định mới được ban hành đầu năm 2026 đã bổ sung và sửa đổi một số điều khoản quan trọng của Nghị định 08/2022/NĐ-CP, nhằm giải quyết các vướng mắc phát sinh trong quá trình thực hiện và đáp ứng yêu cầu cải cách thủ tục hành chính. Các thay đổi tập trung vào ba trụ cột chính: <strong>đơn giản hóa thủ tục</strong>, <strong>ứng dụng công nghệ số</strong> và <strong>tăng cường phân cấp cho địa phương</strong>.</p>
+
+                        <div class="article-highlight">
+                            <p><strong><i class="fas fa-lightbulb" style="color:var(--copper);margin-right:8px"></i>Điểm nhấn:</strong> Quy định mới cho phép nộp hồ sơ trực tuyến hoàn toàn qua Cổng dịch vụ công quốc gia, giảm thời gian thẩm định từ 45 ngày xuống còn 30 ngày làm việc đối với dự án nhóm II và từ 30 ngày xuống còn 20 ngày làm việc đối với dự án nhóm III.</p>
+                        </div>
+
+                        <h2>2. Các điểm thay đổi quan trọng so với quy định cũ</h2>
+
+                        <p>So với các quy định trước đây, Nghị định mới năm 2026 mang đến nhiều điểm đổi mới đáng chú ý, tạo thuận lợi hơn cho doanh nghiệp nhưng đồng thời cũng yêu cầu mức độ tuân thủ cao hơn trong một số lĩnh vực cụ thể:</p>
+
+                        <h3>2.1. Rút ngắn thời gian thẩm định</h3>
+                        <p>Thời gian thẩm định hồ sơ cấp GPMT đã được rút ngắn đáng kể. Cụ thể, đối với các dự án thuộc thẩm quyền cấp phép của Bộ Tài nguyên và Môi trường (nhóm I), thời gian giảm từ 45 ngày làm việc xuống 35 ngày. Đối với dự án nhóm II (thẩm quyền UBND cấp tỉnh), thời gian giảm từ 30 ngày xuống 25 ngày. Dự án nhóm III (thẩm quyền UBND cấp huyện) được rút từ 20 ngày xuống 15 ngày làm việc.</p>
+
+                        <h3>2.2. Chuyển đổi số trong nộp hồ sơ</h3>
+                        <p>Một trong những thay đổi lớn nhất là việc bắt buộc nộp hồ sơ trực tuyến qua Cổng dịch vụ công quốc gia hoặc Cổng dịch vụ công cấp tỉnh. Doanh nghiệp không cần nộp bản giấy trừ trường hợp cơ quan thẩm định yêu cầu kiểm tra đối chiếu. Hệ thống trực tuyến cho phép theo dõi tiến độ xử lý hồ sơ theo thời gian thực, nhận thông báo tự động qua email và SMS khi có yêu cầu bổ sung hoặc kết quả thẩm định.</p>
+
+                        <h3>2.3. Tích hợp với Đánh giá tác động môi trường (ĐTM)</h3>
+                        <p>Quy định mới cho phép lồng ghép thủ tục cấp GPMT với quá trình thẩm định ĐTM đối với các dự án mới. Điều này giúp doanh nghiệp tiết kiệm thời gian và chi phí bằng cách chỉ cần nộp một bộ hồ sơ tích hợp thay vì hai bộ hồ sơ riêng biệt như trước đây. Tuy nhiên, điều kiện để được tích hợp là dự án phải có đủ thông tin về hệ thống xử lý chất thải tại thời điểm nộp hồ sơ ĐTM.</p>
+
+                        <h3>2.4. Bổ sung quy định về kiểm kê khí nhà kính</h3>
+                        <p>Đối với các cơ sở thuộc danh mục phải thực hiện kiểm kê khí nhà kính theo Nghị định 06/2022/NĐ-CP, hồ sơ xin cấp GPMT phải bao gồm kế hoạch giảm phát thải khí nhà kính. Đây là yêu cầu mới phản ánh cam kết của Việt Nam trong việc đạt mục tiêu Net Zero vào năm 2050.</p>
+
+                        <h3>2.5. Tăng cường giám sát sau cấp phép</h3>
+                        <p>Nghị định mới quy định rõ hơn về cơ chế giám sát sau cấp phép, bao gồm: lắp đặt hệ thống quan trắc tự động liên tục đối với các cơ sở xả thải lớn, báo cáo định kỳ 6 tháng một lần thay vì hàng năm như trước đây, và cơ chế thanh kiểm tra đột xuất dựa trên dữ liệu quan trắc tự động.</p>
+
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Nội dung</th>
+                                    <th>Quy định cũ</th>
+                                    <th>Quy định mới 2026</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Thời gian thẩm định (Nhóm I)</td>
+                                    <td>45 ngày</td>
+                                    <td>35 ngày</td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian thẩm định (Nhóm II)</td>
+                                    <td>30 ngày</td>
+                                    <td>25 ngày</td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian thẩm định (Nhóm III)</td>
+                                    <td>20 ngày</td>
+                                    <td>15 ngày</td>
+                                </tr>
+                                <tr>
+                                    <td>Hình thức nộp hồ sơ</td>
+                                    <td>Trực tiếp hoặc trực tuyến</td>
+                                    <td>Bắt buộc trực tuyến</td>
+                                </tr>
+                                <tr>
+                                    <td>Tích hợp ĐTM</td>
+                                    <td>Không</td>
+                                    <td>Cho phép lồng ghép</td>
+                                </tr>
+                                <tr>
+                                    <td>Báo cáo định kỳ</td>
+                                    <td>Hàng năm</td>
+                                    <td>6 tháng/lần</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h2>3. Đối tượng phải xin cấp giấy phép môi trường</h2>
+
+                        <p>Theo quy định hiện hành và Nghị định mới, các đối tượng sau đây bắt buộc phải có giấy phép môi trường trước khi đi vào hoạt động:</p>
+
+                        <ul>
+                            <li><strong>Dự án đầu tư nhóm I, nhóm II, nhóm III</strong> có phát sinh nước thải, bụi, khí thải được xả ra môi trường hoặc phát sinh chất thải nguy hại phải được xử lý, quản lý.</li>
+                            <li><strong>Dự án đầu tư, cơ sở sản xuất</strong> thuộc đối tượng phải có giấy phép môi trường nhưng đã được cấp giấy phép trước ngày Luật BVMT 2020 có hiệu lực thì tiếp tục sử dụng đến hết thời hạn, sau đó phải xin cấp lại theo quy định mới.</li>
+                            <li><strong>Cơ sở sản xuất, kinh doanh, dịch vụ</strong> đang hoạt động có phát sinh nước thải công nghiệp xả ra ngoài môi trường, bụi và khí thải công nghiệp phải xử lý.</li>
+                            <li><strong>Dự án, cơ sở nhập khẩu phế liệu</strong> từ nước ngoài làm nguyên liệu sản xuất.</li>
+                            <li><strong>Cơ sở thực hiện dịch vụ xử lý chất thải nguy hại</strong> (bao gồm cả cơ sở đồng xử lý chất thải nguy hại).</li>
+                        </ul>
+
+                        <div class="article-highlight">
+                            <p><strong><i class="fas fa-exclamation-circle" style="color:var(--copper);margin-right:8px"></i>Lưu ý:</strong> Doanh nghiệp thuộc đối tượng phải có GPMT mà không xin cấp phép sẽ bị xử phạt vi phạm hành chính theo Nghị định 45/2022/NĐ-CP với mức phạt từ 40 triệu đến 400 triệu đồng tùy theo mức độ vi phạm, đồng thời có thể bị đình chỉ hoạt động.</p>
+                        </div>
+
+                        <h2>4. Hồ sơ cần chuẩn bị</h2>
+
+                        <p>Hồ sơ đề nghị cấp GPMT theo quy định mới bao gồm các thành phần sau, doanh nghiệp cần chuẩn bị đầy đủ và chính xác để tránh bị trả hồ sơ yêu cầu bổ sung:</p>
+
+                        <ol>
+                            <li><strong>Văn bản đề nghị cấp giấy phép môi trường</strong> theo mẫu quy định tại Phụ lục XIII, Nghị định 08/2022/NĐ-CP (đã được sửa đổi, bổ sung).</li>
+                            <li><strong>Báo cáo đề xuất cấp giấy phép môi trường</strong> bao gồm: thông tin chung về dự án/cơ sở, hiện trạng các nguồn phát sinh chất thải, biện pháp xử lý, kết quả quan trắc môi trường.</li>
+                            <li><strong>Bản sao Quyết định phê duyệt kết quả thẩm định ĐTM</strong> (nếu thuộc đối tượng phải thực hiện ĐTM) hoặc Giấy xác nhận đăng ký môi trường.</li>
+                            <li><strong>Bản vẽ thiết kế, sơ đồ mặt bằng</strong> hệ thống thu gom, xử lý nước thải, bụi, khí thải và khu vực lưu giữ chất thải nguy hại.</li>
+                            <li><strong>Kết quả quan trắc môi trường</strong> (đối với cơ sở đang hoạt động): kết quả phân tích chất lượng nước thải, khí thải trong 12 tháng gần nhất, do đơn vị có năng lực quan trắc thực hiện.</li>
+                            <li><strong>Kế hoạch quản lý chất thải nguy hại</strong> (nếu phát sinh CTNH), bao gồm: loại chất thải, khối lượng phát sinh, phương án thu gom, lưu giữ và xử lý.</li>
+                            <li><strong>Kế hoạch giảm phát thải khí nhà kính</strong> (đối với cơ sở thuộc danh mục kiểm kê KNK) - đây là yêu cầu mới bổ sung năm 2026.</li>
+                            <li><strong>Bản cam kết</strong> về việc tuân thủ các điều kiện quy định trong GPMT sau khi được cấp phép.</li>
+                        </ol>
+
+                        <h2>5. Quy trình nộp hồ sơ và thẩm định</h2>
+
+                        <p>Quy trình cấp giấy phép môi trường theo quy định mới năm 2026 được thực hiện theo các bước sau:</p>
+
+                        <h3>Bước 1: Chuẩn bị và tự đánh giá</h3>
+                        <p>Doanh nghiệp cần xác định chính xác đối tượng, thẩm quyền cấp phép và thành phần hồ sơ cần thiết. Đồng thời thực hiện quan trắc môi trường, kiểm tra hệ thống xử lý chất thải để đảm bảo đáp ứng quy chuẩn kỹ thuật quốc gia về môi trường. Giai đoạn này rất quan trọng vì sẽ quyết định chất lượng hồ sơ và tỷ lệ được phê duyệt lần đầu.</p>
+
+                        <h3>Bước 2: Lập và nộp hồ sơ trực tuyến</h3>
+                        <p>Doanh nghiệp đăng ký tài khoản trên Cổng dịch vụ công quốc gia (nếu chưa có), sau đó điền thông tin và tải lên các tài liệu theo yêu cầu. Hệ thống sẽ tự động kiểm tra tính đầy đủ của hồ sơ và phát hành biên nhận điện tử. Nếu hồ sơ thiếu thành phần, hệ thống sẽ thông báo ngay để doanh nghiệp bổ sung trước khi chính thức nộp.</p>
+
+                        <h3>Bước 3: Tiếp nhận và thẩm định</h3>
+                        <p>Cơ quan tiếp nhận sẽ kiểm tra hồ sơ trong vòng 5 ngày làm việc. Nếu hồ sơ đạt yêu cầu, cơ quan sẽ thành lập hội đồng thẩm định (đối với dự án nhóm I, nhóm II) hoặc giao cán bộ chuyên môn thẩm định (đối với dự án nhóm III). Quá trình thẩm định bao gồm: xem xét hồ sơ, kiểm tra thực tế tại cơ sở (nếu cần), và họp hội đồng thẩm định.</p>
+
+                        <h3>Bước 4: Chỉnh sửa, bổ sung (nếu có)</h3>
+                        <p>Trong trường hợp hồ sơ cần chỉnh sửa hoặc bổ sung, cơ quan thẩm định sẽ gửi thông báo qua hệ thống trực tuyến. Doanh nghiệp có tối đa 30 ngày để hoàn thiện hồ sơ kể từ ngày nhận được thông báo. Nếu quá thời hạn, hồ sơ sẽ bị hủy và doanh nghiệp phải nộp lại từ đầu.</p>
+
+                        <h3>Bước 5: Cấp giấy phép môi trường</h3>
+                        <p>Sau khi hồ sơ được thẩm định đạt yêu cầu, cơ quan có thẩm quyền sẽ ban hành quyết định cấp GPMT. Giấy phép được cấp dưới dạng điện tử có chữ ký số và đồng thời được gửi bản giấy cho doanh nghiệp. GPMT có hiệu lực tối đa 10 năm đối với dự án nhóm I, 7 năm đối với dự án nhóm II và 5 năm đối với dự án nhóm III.</p>
+
+                        <h2>6. Lưu ý quan trọng cho doanh nghiệp</h2>
+
+                        <p>Để đảm bảo quá trình xin cấp GPMT diễn ra thuận lợi và tránh những rủi ro pháp lý không đáng có, doanh nghiệp cần lưu ý một số vấn đề then chốt sau:</p>
+
+                        <ul>
+                            <li><strong>Nắm rõ thời hạn chuyển đổi:</strong> Các doanh nghiệp đang sử dụng giấy phép cũ (giấy xác nhận hoàn thành công trình BVMT, giấy phép xả thải...) cần kiểm tra thời hạn và chủ động xin cấp GPMT mới trước khi giấy phép cũ hết hiệu lực.</li>
+                            <li><strong>Đầu tư hệ thống xử lý chất thải đạt chuẩn:</strong> Hồ sơ GPMT sẽ bị từ chối nếu hệ thống xử lý không đáp ứng quy chuẩn kỹ thuật quốc gia. Doanh nghiệp cần rà soát, nâng cấp hệ thống trước khi nộp hồ sơ.</li>
+                            <li><strong>Thuê đơn vị tư vấn chuyên nghiệp:</strong> Việc lập hồ sơ GPMT đòi hỏi kiến thức chuyên môn sâu về môi trường và pháp luật. Sử dụng dịch vụ tư vấn chuyên nghiệp sẽ giúp tiết kiệm thời gian, nâng cao tỷ lệ thành công khi nộp hồ sơ lần đầu.</li>
+                            <li><strong>Chuẩn bị kế hoạch kiểm kê KNK:</strong> Đối với doanh nghiệp thuộc danh mục kiểm kê khí nhà kính, cần lập kế hoạch giảm phát thải ngay từ khi chuẩn bị hồ sơ GPMT để đáp ứng yêu cầu mới.</li>
+                            <li><strong>Duy trì quan trắc môi trường định kỳ:</strong> Kết quả quan trắc là bằng chứng quan trọng chứng minh việc tuân thủ các điều kiện trong GPMT. Doanh nghiệp cần thực hiện quan trắc đúng tần suất quy định và lưu trữ kết quả cẩn thận.</li>
+                            <li><strong>Cập nhật khi có thay đổi:</strong> Khi có sự thay đổi về quy mô, công suất, loại hình sản xuất hoặc phát sinh nguồn thải mới, doanh nghiệp phải làm thủ tục cấp đổi hoặc điều chỉnh GPMT kịp thời.</li>
+                        </ul>
+
+                        <div class="article-highlight">
+                            <p><strong><i class="fas fa-hand-point-right" style="color:var(--copper);margin-right:8px"></i>Mẹo từ chuyên gia:</strong> Trước khi nộp hồ sơ chính thức, doanh nghiệp nên tham vấn ý kiến sơ bộ từ cơ quan cấp phép (thông qua kênh trực tuyến hoặc trực tiếp) để đảm bảo hồ sơ đáp ứng đầy đủ yêu cầu, tránh mất thời gian chỉnh sửa nhiều lần.</p>
+                        </div>
+
+                        <h2>7. Kết luận và khuyến nghị</h2>
+
+                        <p>Những thay đổi trong thủ tục cấp giấy phép môi trường năm 2026 nhìn chung mang tính tích cực, hướng tới mục tiêu đơn giản hóa thủ tục hành chính và tăng cường ứng dụng công nghệ số. Tuy nhiên, đi kèm với sự thuận tiện là yêu cầu tuân thủ cao hơn, đặc biệt trong lĩnh vực kiểm kê khí nhà kính và giám sát sau cấp phép.</p>
+
+                        <p>Đối với doanh nghiệp, việc chủ động tìm hiểu và thích ứng với quy định mới là rất cần thiết. Không chỉ để đảm bảo tuân thủ pháp luật và tránh bị xử phạt, mà còn để xây dựng hình ảnh doanh nghiệp có trách nhiệm với môi trường -- yếu tố ngày càng quan trọng trong bối cảnh phát triển bền vững và hội nhập quốc tế.</p>
+
+                        <p>Khuyến nghị cụ thể cho doanh nghiệp:</p>
+                        <ol>
+                            <li><strong>Rà soát ngay</strong> tình trạng giấy phép môi trường hiện tại, xác định thời hạn còn hiệu lực và đối chiếu với yêu cầu mới.</li>
+                            <li><strong>Lập kế hoạch chuyển đổi</strong> nếu đang sử dụng giấy phép theo quy định cũ, ưu tiên hoàn thành trước thời hạn để tránh gián đoạn hoạt động sản xuất.</li>
+                            <li><strong>Đầu tư nâng cấp</strong> hệ thống xử lý chất thải nếu chưa đáp ứng quy chuẩn, đặc biệt là hệ thống quan trắc tự động liên tục.</li>
+                            <li><strong>Tìm kiếm đối tác tư vấn</strong> có kinh nghiệm và uy tín để đồng hành trong quá trình lập hồ sơ, đảm bảo chất lượng và tiến độ.</li>
+                            <li><strong>Xây dựng văn hóa tuân thủ</strong> môi trường trong nội bộ doanh nghiệp, không coi GPMT chỉ là thủ tục hành chính mà là cam kết phát triển bền vững.</li>
+                        </ol>
+
+                        <p>Nếu quý doanh nghiệp cần hỗ trợ tư vấn về thủ tục cấp giấy phép môi trường hoặc các dịch vụ liên quan, hãy liên hệ với <strong>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC</strong> qua hotline <a href="tel:0975873866" style="color:var(--copper);font-weight:700">0975 873 866</a> hoặc email <a href="mailto:letuantran@gmail.com" style="color:var(--copper)">letuantran@gmail.com</a>. Đội ngũ chuyên gia giàu kinh nghiệm của chúng tôi sẵn sàng đồng hành cùng doanh nghiệp trong mọi vấn đề về môi trường.</p>
+
+                        <!-- CTA Box -->
+                        <div style="background:linear-gradient(135deg, var(--royal-blue), #2D4A6F);padding:32px;border-radius:12px;margin-top:36px;color:#fff;text-align:center">
+                            <h3 style="color:#fff;margin-bottom:10px;font-size:1.3rem">Cần hỗ trợ xin cấp Giấy phép Môi trường?</h3>
+                            <p style="color:rgba(255,255,255,.85);margin-bottom:20px">Liên hệ ngay để được tư vấn miễn phí bởi đội ngũ chuyên gia của NC Environment</p>
+                            <a href="lien-he.html" class="btn btn-primary" style="background:var(--copper);padding:14px 36px;border-radius:8px;font-size:1.05rem;text-decoration:none;color:#fff;display:inline-block">
+                                <i class="fas fa-phone-alt" style="margin-right:8px"></i> Liên Hệ Tư Vấn
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Related Articles -->
+                    <div class="related-articles">
+                        <h2>Bài viết liên quan</h2>
+                        <div class="related-grid">
+                            <div class="related-card">
+                                <span class="related-tag">Kiến thức</span>
+                                <h4><a href="bai-viet-2.html">Quy trình lập báo cáo đánh giá tác động môi trường cho doanh nghiệp</a></h4>
+                                <div class="related-date"><i class="far fa-calendar-alt"></i> 10/03/2026</div>
+                            </div>
+                            <div class="related-card">
+                                <span class="related-tag">Tư vấn</span>
+                                <h4><a href="bai-viet-3.html">Doanh nghiệp nào bắt buộc phải có giấy phép môi trường?</a></h4>
+                                <div class="related-date"><i class="far fa-calendar-alt"></i> 05/03/2026</div>
+                            </div>
+                            <div class="related-card">
+                                <span class="related-tag">Khí nhà kính</span>
+                                <h4><a href="bai-viet-4.html">Kiểm kê khí nhà kính: Nghĩa vụ pháp lý và cơ hội cho doanh nghiệp Việt Nam</a></h4>
+                                <div class="related-date"><i class="far fa-calendar-alt"></i> 28/02/2026</div>
+                            </div>
+                            <div class="related-card">
+                                <span class="related-tag">Kiến thức</span>
+                                <h4><a href="bai-viet-5.html">Hướng dẫn vận hành hệ thống xử lý nước thải công nghiệp hiệu quả</a></h4>
+                                <div class="related-date"><i class="far fa-calendar-alt"></i> 20/02/2026</div>
+                            </div>
+                            <div class="related-card">
+                                <span class="related-tag">Pháp luật</span>
+                                <h4><a href="bai-viet-6.html">Mức xử phạt vi phạm hành chính trong lĩnh vực môi trường mới nhất</a></h4>
+                                <div class="related-date"><i class="far fa-calendar-alt"></i> 15/02/2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR -->
+                <div class="article-sidebar">
+                    <div class="news-sidebar-block">
+                        <h3>Danh mục</h3>
+                        <ul class="footer-links">
+                            <li><a href="tin-tuc.html">Pháp luật môi trường</a></li>
+                            <li><a href="tin-tuc.html">Kiến thức chuyên môn</a></li>
+                            <li><a href="tin-tuc.html">Tư vấn doanh nghiệp</a></li>
+                            <li><a href="tin-tuc.html">Khí nhà kính & Carbon</a></li>
+                            <li><a href="tin-tuc.html">Tin tức ngành</a></li>
+                        </ul>
+                    </div>
+                    <div class="news-sidebar-block">
+                        <h3>Bài viết phổ biến</h3>
+                        <ul class="footer-links">
+                            <li><a href="bai-viet-1.html">Hướng dẫn xin cấp GPMT 2026</a></li>
+                            <li><a href="bai-viet-2.html">Quy trình lập báo cáo ĐTM</a></li>
+                            <li><a href="bai-viet-4.html">Kiểm kê khí nhà kính cho DN</a></li>
+                            <li><a href="bai-viet-6.html">Mức phạt vi phạm MT mới nhất</a></li>
+                            <li><a href="bai-viet-3.html">Đối tượng phải có GPMT</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-cta-box">
+                        <h3><i class="fas fa-headset" style="margin-right:8px"></i>Cần Tư Vấn?</h3>
+                        <p>Đội ngũ chuyên gia sẵn sàng hỗ trợ doanh nghiệp của bạn</p>
+                        <a href="lien-he.html" class="btn">Liên Hệ Ngay</a>
+                        <a href="tel:0975873866" class="cta-phone"><i class="fas fa-phone-alt" style="margin-right:6px"></i>0975 873 866</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><a href="index.html" class="logo"><img src="images/logo_NC_3.png" alt="NC Logo" style="filter:brightness(10)"><div class="logo-text"><div class="company-name">Tài nguyên & Môi trường NC</div><div class="company-sub">Environment Consulting</div></div></a><p>Đồng hành cùng doanh nghiệp vì một môi trường bền vững.</p><div class="footer-social"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fas fa-comment-dots"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div><div><h4>Dịch Vụ</h4><ul class="footer-links"><li><a href="dich-vu-dtm.html">Đánh giá tác động MT</a></li><li><a href="dich-vu-gpmt.html">Giấy phép môi trường</a></li><li><a href="dich-vu-quantrac.html">Quan trắc môi trường</a></li><li><a href="dich-vu-xlnt.html">Xử lý nước thải</a></li><li><a href="dich-vu-ctnh.html">Quản lý CTNH</a></li><li><a href="dich-vu-phapluat.html">Tư vấn pháp luật MT</a></li><li><a href="dich-vu-knk.html">Kiểm kê khí nhà kính</a></li></ul></div><div><h4>Liên Kết</h4><ul class="footer-links"><li><a href="index.html">Trang Chủ</a></li><li><a href="gioi-thieu.html">Giới Thiệu</a></li><li><a href="dich-vu.html">Dịch Vụ</a></li><li><a href="tin-tuc.html">Tin Tức</a></li><li><a href="lien-he.html">Liên Hệ</a></li></ul></div><div><h4>Liên Hệ</h4><div class="footer-contact-item"><i class="fas fa-phone-alt"></i><span><a href="tel:0975873866" style="color:inherit">0975 873 866</a></span></div><div class="footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:letuantran@gmail.com" style="color:inherit">letuantran@gmail.com</a></span></div><div class="footer-contact-item"><i class="fas fa-clock"></i><span>T2 - T7: 8:00 - 17:30</span></div></div></div><div class="footer-bottom"><p>Copyright 2026 &copy; <strong>Công ty TNHH Tư vấn Tài nguyên và Môi trường NC.</strong> All rights reserved.</p></div></div></footer>
+
+    <div class="floating-contact" id="floatingContact"><div class="floating-menu"><div class="floating-menu-item"><span>Gọi tư vấn</span><a href="tel:0975873866" class="float-phone"><i class="fas fa-phone-alt"></i></a></div><div class="floating-menu-item"><span>Chat Zalo</span><a href="https://zalo.me/0975873866" target="_blank" class="float-zalo"><i class="fas fa-comment-dots"></i></a></div><div class="floating-menu-item"><span>Gửi Email</span><a href="mailto:letuantran@gmail.com" class="float-email"><i class="fas fa-envelope"></i></a></div></div><button class="floating-btn"><div class="pulse"></div><i class="fas fa-headset"></i></button></div>
+    <button class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+    <script src="main.js"></script>
+</body>
+</html>
+
+
