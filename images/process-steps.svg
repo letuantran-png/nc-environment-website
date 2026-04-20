@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300">
+  <defs>
+    <linearGradient id="psBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FAF7F2"/>
+      <stop offset="100%" stop-color="#F0EBE3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="300" fill="url(#psBg)" rx="12"/>
+
+  <!-- Step 1 -->
+  <g transform="translate(50, 50)">
+    <circle cx="80" cy="60" r="55" fill="#1E3A5F" opacity="0.08"/>
+    <circle cx="80" cy="60" r="42" fill="#FAF7F2" stroke="#1E3A5F" stroke-width="3"/>
+    <text x="80" y="52" text-anchor="middle" font-size="28" fill="#1E3A5F" font-weight="bold" font-family="Arial, sans-serif">01</text>
+    <text x="80" y="72" text-anchor="middle" font-size="9" fill="#C47D5A" font-family="Arial, Helvetica, sans-serif">TIẾP NHẬN</text>
+    <!-- Phone icon -->
+    <rect x="65" y="25" width="30" height="18" rx="4" fill="#C47D5A" opacity="0.2"/>
+    <text x="80" y="150" text-anchor="middle" font-size="14" fill="#1E3A5F" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Tiếp nhận</text>
+    <text x="80" y="168" text-anchor="middle" font-size="11" fill="#8B7355" font-family="Arial, Helvetica, sans-serif">yêu cầu</text>
+  </g>
+
+  <!-- Arrow 1-2 -->
+  <g transform="translate(205, 95)">
+    <line x1="0" y1="15" x2="60" y2="15" stroke="#C47D5A" stroke-width="2" stroke-dasharray="6,4"/>
+    <polygon points="55,8 68,15 55,22" fill="#C47D5A"/>
+  </g>
+
+  <!-- Step 2 -->
+  <g transform="translate(280, 50)">
+    <circle cx="80" cy="60" r="55" fill="#4A6741" opacity="0.08"/>
+    <circle cx="80" cy="60" r="42" fill="#FAF7F2" stroke="#4A6741" stroke-width="3"/>
+    <text x="80" y="52" text-anchor="middle" font-size="28" fill="#4A6741" font-weight="bold" font-family="Arial, sans-serif">02</text>
+    <text x="80" y="72" text-anchor="middle" font-size="9" fill="#C47D5A" font-family="Arial, Helvetica, sans-serif">KẾ HOẠCH</text>
+    <text x="80" y="150" text-anchor="middle" font-size="14" fill="#1E3A5F" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Lập kế hoạch</text>
+    <text x="80" y="168" text-anchor="middle" font-size="11" fill="#8B7355" font-family="Arial, Helvetica, sans-serif">&amp; Báo giá</text>
+  </g>
+
+  <!-- Arrow 2-3 -->
+  <g transform="translate(435, 95)">
+    <line x1="0" y1="15" x2="60" y2="15" stroke="#C47D5A" stroke-width="2" stroke-dasharray="6,4"/>
+    <polygon points="55,8 68,15 55,22" fill="#C47D5A"/>
+  </g>
+
+  <!-- Step 3 -->
+  <g transform="translate(510, 50)">
+    <circle cx="80" cy="60" r="55" fill="#C47D5A" opacity="0.08"/>
+    <circle cx="80" cy="60" r="42" fill="#FAF7F2" stroke="#C47D5A" stroke-width="3"/>
+    <text x="80" y="52" text-anchor="middle" font-size="28" fill="#C47D5A" font-weight="bold" font-family="Arial, sans-serif">03</text>
+    <text x="80" y="72" text-anchor="middle" font-size="9" fill="#1E3A5F" font-family="Arial, Helvetica, sans-serif">TRIỂN KHAI</text>
+    <text x="80" y="150" text-anchor="middle" font-size="14" fill="#1E3A5F" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Triển khai</text>
+    <text x="80" y="168" text-anchor="middle" font-size="11" fill="#8B7355" font-family="Arial, Helvetica, sans-serif">thực hiện</text>
+  </g>
+
+  <!-- Arrow 3-4 -->
+  <g transform="translate(665, 95)">
+    <line x1="0" y1="15" x2="60" y2="15" stroke="#C47D5A" stroke-width="2" stroke-dasharray="6,4"/>
+    <polygon points="55,8 68,15 55,22" fill="#C47D5A"/>
+  </g>
+
+  <!-- Step 4 -->
+  <g transform="translate(740, 50)">
+    <circle cx="80" cy="60" r="55" fill="#1E3A5F" opacity="0.08"/>
+    <circle cx="80" cy="60" r="42" fill="#FAF7F2" stroke="#1E3A5F" stroke-width="3"/>
+    <text x="80" y="52" text-anchor="middle" font-size="28" fill="#1E3A5F" font-weight="bold" font-family="Arial, sans-serif">04</text>
+    <text x="80" y="72" text-anchor="middle" font-size="9" fill="#4A6741" font-family="Arial, Helvetica, sans-serif">BÀN GIAO</text>
+    <!-- Checkmark -->
+    <circle cx="80" cy="25" r="10" fill="#4A6741" opacity="0.3"/>
+    <path d="M75 25 L78 28 L85 21" stroke="#4A6741" stroke-width="2" fill="none"/>
+    <text x="80" y="150" text-anchor="middle" font-size="14" fill="#1E3A5F" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Bàn giao</text>
+    <text x="80" y="168" text-anchor="middle" font-size="11" fill="#8B7355" font-family="Arial, Helvetica, sans-serif">&amp; Hỗ trợ</text>
+  </g>
+
+  <!-- Bottom accent -->
+  <rect x="50" y="260" width="900" height="3" rx="2" fill="#C47D5A" opacity="0.15"/>
+  <rect x="50" y="260" width="225" height="3" rx="2" fill="#1E3A5F" opacity="0.3"/>
+  <rect x="275" y="260" width="225" height="3" rx="2" fill="#4A6741" opacity="0.3"/>
+  <rect x="500" y="260" width="225" height="3" rx="2" fill="#C47D5A" opacity="0.3"/>
+  <rect x="725" y="260" width="225" height="3" rx="2" fill="#1E3A5F" opacity="0.3"/>
+
+  <!-- Labels -->
+  <text x="162" y="285" text-anchor="middle" font-size="9" fill="#1E3A5F" opacity="0.5" font-family="Arial, Helvetica, sans-serif">Khảo sát thực tế</text>
+  <text x="387" y="285" text-anchor="middle" font-size="9" fill="#4A6741" opacity="0.5" font-family="Arial, Helvetica, sans-serif">Phương án tối ưu</text>
+  <text x="612" y="285" text-anchor="middle" font-size="9" fill="#C47D5A" opacity="0.5" font-family="Arial, Helvetica, sans-serif">Soạn hồ sơ chuyên môn</text>
+  <text x="837" y="285" text-anchor="middle" font-size="9" fill="#1E3A5F" opacity="0.5" font-family="Arial, Helvetica, sans-serif">Hỗ trợ sau bàn giao</text>
+</svg>

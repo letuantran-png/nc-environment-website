@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E3A5F" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#4A6741" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="treeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A6741"/>
+      <stop offset="100%" stop-color="#2d3d28"/>
+    </linearGradient>
+    <linearGradient id="buildGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E3A5F"/>
+      <stop offset="100%" stop-color="#152d4a"/>
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1E3A5F" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#skyGrad)" rx="16"/>
+
+  <!-- Sun -->
+  <circle cx="650" cy="100" r="60" fill="#C47D5A" opacity="0.15"/>
+  <circle cx="650" cy="100" r="40" fill="#C47D5A" opacity="0.2"/>
+
+  <!-- Clouds -->
+  <g opacity="0.1" fill="#1E3A5F">
+    <ellipse cx="200" cy="80" rx="60" ry="20"/>
+    <ellipse cx="230" cy="70" rx="40" ry="18"/>
+    <ellipse cx="500" cy="120" rx="50" ry="15"/>
+    <ellipse cx="525" cy="112" rx="35" ry="14"/>
+  </g>
+
+  <!-- Mountains/Hills background -->
+  <path d="M0 350 Q100 250 200 300 Q300 250 400 280 Q500 240 600 290 Q700 260 800 300 L800 600 L0 600Z" fill="#4A6741" opacity="0.12"/>
+  <path d="M0 380 Q150 310 300 350 Q450 310 600 340 Q700 320 800 350 L800 600 L0 600Z" fill="#4A6741" opacity="0.08"/>
+
+  <!-- Factory/Building -->
+  <g transform="translate(100, 200)">
+    <rect x="0" y="80" width="120" height="150" rx="4" fill="url(#buildGrad)" opacity="0.8"/>
+    <rect x="10" y="100" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="45" y="100" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="85" y="100" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="10" y="135" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="45" y="135" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="85" y="135" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="10" y="170" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="45" y="170" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <rect x="85" y="170" width="25" height="20" rx="2" fill="#FAF7F2" opacity="0.6"/>
+    <!-- Chimney -->
+    <rect x="30" y="50" width="20" height="35" rx="2" fill="#1E3A5F" opacity="0.9"/>
+    <rect x="80" y="40" width="20" height="45" rx="2" fill="#1E3A5F" opacity="0.9"/>
+    <!-- Clean smoke (green puffs) -->
+    <circle cx="40" cy="40" r="8" fill="#4A6741" opacity="0.15"/>
+    <circle cx="35" cy="25" r="10" fill="#4A6741" opacity="0.1"/>
+    <circle cx="42" cy="10" r="7" fill="#4A6741" opacity="0.08"/>
+    <circle cx="90" cy="30" r="8" fill="#4A6741" opacity="0.15"/>
+    <circle cx="85" cy="15" r="10" fill="#4A6741" opacity="0.1"/>
+  </g>
+
+  <!-- Trees -->
+  <g transform="translate(280, 280)">
+    <rect x="18" y="60" width="8" height="30" rx="2" fill="#8B7355"/>
+    <ellipse cx="22" cy="45" rx="22" ry="30" fill="url(#treeGrad)" opacity="0.9"/>
+    <ellipse cx="22" cy="35" rx="16" ry="22" fill="#4A6741" opacity="0.7"/>
+  </g>
+  <g transform="translate(320, 290)">
+    <rect x="15" y="50" width="6" height="25" rx="2" fill="#8B7355"/>
+    <ellipse cx="18" cy="38" rx="18" ry="25" fill="url(#treeGrad)" opacity="0.85"/>
+  </g>
+  <g transform="translate(350, 275)">
+    <rect x="20" y="65" width="8" height="30" rx="2" fill="#8B7355"/>
+    <ellipse cx="24" cy="48" rx="24" ry="32" fill="url(#treeGrad)" opacity="0.9"/>
+    <ellipse cx="24" cy="38" rx="18" ry="24" fill="#4A6741" opacity="0.6"/>
+  </g>
+
+  <!-- Water Treatment System -->
+  <g transform="translate(450, 280)">
+    <!-- Tank 1 -->
+    <rect x="0" y="30" width="70" height="60" rx="8" fill="#1E3A5F" opacity="0.75"/>
+    <rect x="5" y="35" width="60" height="20" rx="4" fill="#00B4D8" opacity="0.3"/>
+    <text x="35" y="72" text-anchor="middle" font-size="9" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif">XLNT</text>
+    <!-- Pipe -->
+    <rect x="70" y="50" width="30" height="8" rx="4" fill="#8B7355" opacity="0.7"/>
+    <!-- Tank 2 -->
+    <rect x="100" y="25" width="70" height="65" rx="8" fill="#4A6741" opacity="0.75"/>
+    <rect x="105" y="30" width="60" height="25" rx="4" fill="#00B4D8" opacity="0.25"/>
+    <text x="135" y="70" text-anchor="middle" font-size="9" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif">Sinh học</text>
+    <!-- Pipe 2 -->
+    <rect x="170" y="48" width="30" height="8" rx="4" fill="#8B7355" opacity="0.7"/>
+    <!-- Clean water output -->
+    <rect x="200" y="35" width="60" height="50" rx="8" fill="#00B4D8" opacity="0.3"/>
+    <text x="230" y="55" text-anchor="middle" font-size="8" fill="#1E3A5F" font-family="Arial, Helvetica, sans-serif">Nước</text>
+    <text x="230" y="67" text-anchor="middle" font-size="8" fill="#1E3A5F" font-family="Arial, Helvetica, sans-serif">sạch</text>
+    <!-- Arrows -->
+    <path d="M75 54 L95 54" stroke="#C47D5A" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M175 52 L195 52" stroke="#4A6741" stroke-width="2" fill="none"/>
+    <!-- Checkmark -->
+    <circle cx="230" cy="30" r="10" fill="#4A6741" opacity="0.8"/>
+    <path d="M225 30 L228 33 L235 26" stroke="#FAF7F2" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Document/Certificate -->
+  <g transform="translate(500, 150)">
+    <rect x="0" y="0" width="80" height="100" rx="6" fill="#FAF7F2" stroke="#C47D5A" stroke-width="2" opacity="0.9"/>
+    <rect x="10" y="10" width="60" height="6" rx="2" fill="#1E3A5F" opacity="0.3"/>
+    <rect x="10" y="22" width="50" height="4" rx="2" fill="#1E3A5F" opacity="0.15"/>
+    <rect x="10" y="30" width="55" height="4" rx="2" fill="#1E3A5F" opacity="0.15"/>
+    <rect x="10" y="38" width="40" height="4" rx="2" fill="#1E3A5F" opacity="0.15"/>
+    <rect x="10" y="50" width="60" height="6" rx="2" fill="#1E3A5F" opacity="0.3"/>
+    <rect x="10" y="62" width="50" height="4" rx="2" fill="#1E3A5F" opacity="0.15"/>
+    <rect x="10" y="70" width="55" height="4" rx="2" fill="#1E3A5F" opacity="0.15"/>
+    <!-- Stamp -->
+    <circle cx="55" cy="85" r="12" fill="none" stroke="#C47D5A" stroke-width="2" opacity="0.6"/>
+    <text x="55" y="88" text-anchor="middle" font-size="7" fill="#C47D5A" font-family="Arial, Helvetica, sans-serif">GP</text>
+  </g>
+
+  <!-- Leaf decoration -->
+  <g transform="translate(620, 200)">
+    <path d="M0 40 Q20 0 50 10 Q30 20 20 40Z" fill="#4A6741" opacity="0.5"/>
+    <path d="M10 50 Q35 20 60 25 Q40 30 30 50Z" fill="#4A6741" opacity="0.35"/>
+  </g>
+
+  <!-- Ground -->
+  <rect x="0" y="380" width="800" height="220" rx="0" fill="#4A6741" opacity="0.06"/>
+
+  <!-- Water wave at bottom -->
+  <path d="M0 450 Q100 430 200 445 Q300 460 400 440 Q500 420 600 445 Q700 460 800 440 L800 600 L0 600Z" fill="url(#waterGrad)"/>
+
+  <!-- Text area -->
+  <g transform="translate(80, 450)">
+    <text font-size="28" font-weight="bold" fill="#1E3A5F" font-family="Arial, sans-serif">NC Environment</text>
+    <text y="35" font-size="14" fill="#4A6741" font-family="Arial, Helvetica, sans-serif">Tư vấn Tài nguyên &amp; Môi trường</text>
+    <line x1="0" y1="50" x2="180" y2="50" stroke="#C47D5A" stroke-width="3" opacity="0.6"/>
+    <text y="70" font-size="11" fill="#8B7355" font-family="Arial, Helvetica, sans-serif">Đồng hành cùng doanh nghiệp vì môi trường bền vững</text>
+  </g>
+
+  <!-- Recycling symbol -->
+  <g transform="translate(680, 420)" opacity="0.15">
+    <path d="M0 20 L15 0 L30 20 L20 20 L20 35 L10 35 L10 20Z" fill="#4A6741"/>
+    <path d="M35 25 L50 45 L20 45 L25 37 L15 37 L20 27Z" fill="#4A6741" transform="rotate(120,30,35)"/>
+    <path d="M35 25 L50 45 L20 45 L25 37 L15 37 L20 27Z" fill="#4A6741" transform="rotate(240,30,35)"/>
+  </g>
+</svg>

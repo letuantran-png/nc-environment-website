@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="nkBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2D4A6F"/>
+      <stop offset="100%" stop-color="#1E3A5F"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#nkBg)" rx="12"/>
+  <!-- Globe -->
+  <circle cx="300" cy="170" r="100" fill="none" stroke="#FAF7F2" stroke-width="2" opacity="0.2"/>
+  <circle cx="300" cy="170" r="100" fill="#FAF7F2" opacity="0.05"/>
+  <ellipse cx="300" cy="170" rx="50" ry="100" fill="none" stroke="#FAF7F2" stroke-width="1" opacity="0.15"/>
+  <ellipse cx="300" cy="170" rx="80" ry="100" fill="none" stroke="#FAF7F2" stroke-width="1" opacity="0.1"/>
+  <line x1="200" y1="170" x2="400" y2="170" stroke="#FAF7F2" stroke-width="1" opacity="0.15"/>
+  <line x1="210" y1="130" x2="390" y2="130" stroke="#FAF7F2" stroke-width="1" opacity="0.1"/>
+  <line x1="210" y1="210" x2="390" y2="210" stroke="#FAF7F2" stroke-width="1" opacity="0.1"/>
+  <!-- Continents hint -->
+  <path d="M260 110 Q280 100 300 115 Q310 120 290 130Z" fill="#4A6741" opacity="0.4"/>
+  <path d="M310 140 Q340 130 350 155 Q340 170 310 160Z" fill="#4A6741" opacity="0.3"/>
+  <path d="M270 170 Q290 165 300 185 Q280 200 260 185Z" fill="#4A6741" opacity="0.35"/>
+  <!-- CO2 clouds -->
+  <g opacity="0.3">
+    <ellipse cx="160" cy="100" rx="35" ry="15" fill="#C47D5A"/>
+    <ellipse cx="175" cy="90" rx="25" ry="12" fill="#C47D5A"/>
+    <text x="165" y="105" text-anchor="middle" font-size="11" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif" font-weight="bold">CO₂</text>
+  </g>
+  <g opacity="0.25">
+    <ellipse cx="440" cy="90" rx="30" ry="13" fill="#C47D5A"/>
+    <ellipse cx="455" cy="82" rx="22" ry="10" fill="#C47D5A"/>
+    <text x="445" y="95" text-anchor="middle" font-size="10" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif">CH₄</text>
+  </g>
+  <g opacity="0.2">
+    <ellipse cx="180" cy="240" rx="28" ry="12" fill="#C47D5A"/>
+    <text x="180" y="245" text-anchor="middle" font-size="9" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif">N₂O</text>
+  </g>
+  <!-- Arrow down = reduction -->
+  <g transform="translate(420, 200)">
+    <rect width="80" height="35" rx="17" fill="#4A6741" opacity="0.5"/>
+    <path d="M50 10 L60 22 L55 22 L55 28 L45 28 L45 22 L40 22Z" fill="#FAF7F2" opacity="0.8"/>
+    <text x="35" y="24" text-anchor="middle" font-size="9" fill="#FAF7F2" font-family="Arial, Helvetica, sans-serif">Giảm</text>
+  </g>
+  <!-- Bottom -->
+  <text x="300" y="330" text-anchor="middle" font-size="18" fill="#FAF7F2" font-weight="bold" font-family="Arial, sans-serif">Kiểm kê Khí nhà kính</text>
+  <text x="300" y="355" text-anchor="middle" font-size="12" fill="#FAF7F2" opacity="0.6" font-family="Arial, Helvetica, sans-serif">Nghĩa vụ pháp lý &amp; cơ hội cho doanh nghiệp</text>
+</svg>
